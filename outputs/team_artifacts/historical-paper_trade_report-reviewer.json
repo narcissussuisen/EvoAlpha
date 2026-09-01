@@ -1,0 +1,19 @@
+{
+  "schema_version": "evoalpha.agent-artifact.v1",
+  "run_id": "historical-paper_trade_report",
+  "as_of": "historical",
+  "role": "reviewer",
+  "status": "complete",
+  "created_at": "2026-08-31T08:13:49.210393+00:00",
+  "historical": true,
+  "report_title": "模拟盘回放报告 — 2026-08-17 ~ 2026-08-24",
+  "facts": {
+    "report_bytes": 2014,
+    "source_type": "yaoban_markdown"
+  },
+  "evidence_refs": [
+    "yaoban-system\\outputs\\paper_trade_report.md"
+  ],
+  "report_ref": "yaoban-system\\outputs\\paper_trade_report.md",
+  "source": "yaoban-system"
+}

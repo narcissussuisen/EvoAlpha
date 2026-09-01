@@ -1,0 +1,128 @@
+{
+  "schema_version": "evoalpha.agent-artifact.v1",
+  "run_id": "paper-paper_trade_report",
+  "as_of": "2026-08-24",
+  "role": "trader",
+  "status": "complete",
+  "created_at": "2026-08-31T08:53:54.587695+00:00",
+  "historical": true,
+  "evidence_refs": [
+    "yaoban-system\\outputs\\paper_trade_report.md"
+  ],
+  "report_ref": "yaoban-system\\outputs\\paper_trade_report.md",
+  "source": "yaoban-system",
+  "orders": [
+    {
+      "symbol": "000021",
+      "name": "深科技",
+      "entry_date": "2026-08-18",
+      "exit_date": "2026-08-19",
+      "hold_days": "1",
+      "pnl_pct": "-11.99",
+      "exit_reason": "break_ma10"
+    },
+    {
+      "symbol": "000859",
+      "name": "国风新材",
+      "entry_date": "2026-08-18",
+      "exit_date": "2026-08-19",
+      "hold_days": "1",
+      "pnl_pct": "-7.68",
+      "exit_reason": "break_ma10"
+    },
+    {
+      "symbol": "001309",
+      "name": "德明利",
+      "entry_date": "2026-08-18",
+      "exit_date": "2026-08-19",
+      "hold_days": "1",
+      "pnl_pct": "-10.59",
+      "exit_reason": "break_ma10"
+    },
+    {
+      "symbol": "002156",
+      "name": "通富微电",
+      "entry_date": "2026-08-18",
+      "exit_date": "2026-08-19",
+      "hold_days": "1",
+      "pnl_pct": "-10.78",
+      "exit_reason": "break_ma10"
+    },
+    {
+      "symbol": "002176",
+      "name": "江特电机",
+      "entry_date": "2026-08-19",
+      "exit_date": "2026-08-20",
+      "hold_days": "1",
+      "pnl_pct": "-4.53",
+      "exit_reason": "break_ma10"
+    },
+    {
+      "symbol": "002407",
+      "name": "多氟多",
+      "entry_date": "2026-08-20",
+      "exit_date": "2026-08-21",
+      "hold_days": "1",
+      "pnl_pct": "-1.97",
+      "exit_reason": "break_ma10"
+    },
+    {
+      "symbol": "603629",
+      "name": "利通电子",
+      "entry_date": "2026-08-20",
+      "exit_date": "2026-08-21",
+      "hold_days": "1",
+      "pnl_pct": "-4.66",
+      "exit_reason": "break_ma10"
+    },
+    {
+      "symbol": "603738",
+      "name": "泰晶科技",
+      "entry_date": "2026-08-21",
+      "exit_date": "2026-08-24",
+      "hold_days": "3",
+      "pnl_pct": "-0.02",
+      "exit_reason": "break_ma10"
+    },
+    {
+      "symbol": "600379",
+      "name": "宝光股份",
+      "entry_date": "2026-08-19",
+      "exit_date": "2026-08-24",
+      "hold_days": "5",
+      "pnl_pct": "-1.45",
+      "exit_reason": "window_end"
+    },
+    {
+      "symbol": "600722",
+      "name": "金牛化工",
+      "entry_date": "2026-08-19",
+      "exit_date": "2026-08-24",
+      "hold_days": "5",
+      "pnl_pct": "14.01",
+      "exit_reason": "window_end"
+    },
+    {
+      "symbol": "002580",
+      "name": "圣阳股份",
+      "entry_date": "2026-08-21",
+      "exit_date": "2026-08-24",
+      "hold_days": "3",
+      "pnl_pct": "-1.94",
+      "exit_reason": "window_end"
+    },
+    {
+      "symbol": "002885",
+      "name": "京泉华",
+      "entry_date": "2026-08-24",
+      "exit_date": "2026-08-24",
+      "hold_days": "0",
+      "pnl_pct": "-2.11",
+      "exit_reason": "window_end"
+    }
+  ],
+  "execution_assumptions": [
+    "日线近似回放，不含分时纪律"
+  ],
+  "execution_status": "paper_replay"
+}

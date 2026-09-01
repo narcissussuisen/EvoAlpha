@@ -1,0 +1,13 @@
+{
+  "run_id": "smoke-ok",
+  "as_of": "2026-08-31",
+  "orders": [{"symbol": "600030", "side": "buy", "quantity": 100}],
+  "roles": {
+    "researcher": {"facts": [], "hypotheses": []},
+    "strategy_researcher": {"strategy_id": "yaoban-v5", "promotion_status": "paper"},
+    "trader": {"orders": [{"symbol": "600030"}]},
+    "portfolio_manager": {"positions": []},
+    "risk_manager": {"risk_status": "pass", "blocking_reasons": []},
+    "coordinator": {"decision": "pending"}
+  }
+}

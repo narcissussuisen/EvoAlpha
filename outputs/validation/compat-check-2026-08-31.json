@@ -1,0 +1,59 @@
+{
+  "schema_version": "evoalpha.compat-check.v1",
+  "created_at": "2026-08-31T08:54:06.152221+00:00",
+  "legacy_paths": {
+    "yaoban-system": true,
+    "因子研究": true,
+    "Vibe-Research": true,
+    "选手学习资料": true,
+    "妖板选手方法论拆解": true
+  },
+  "evoalpha_entries": {
+    "README.md": true,
+    "cli.py": true,
+    "docs/SYSTEM_MAP.md": true,
+    "docs/MIGRATION.md": true,
+    "docs/RUNBOOK.md": true,
+    "agents/README.md": true,
+    "agents/artifact-contract.v1.json": true,
+    "agents/coordinator.py": true,
+    "agents/adapt_vibe_run.py": true,
+    "agents/adapt_yaoban_report.py": true,
+    "agents/adapt_paper_trade.py": true,
+    "learning/README.md": true,
+    "research/README.md": true,
+    "trading/README.md": true,
+    "evolution/README.md": true
+  },
+  "services": {
+    "8766": true,
+    "5930": true,
+    "8765": true,
+    "3080": true
+  },
+  "cli_wiring": {
+    "help_ok": true,
+    "commands": [
+      "status",
+      "learning",
+      "health",
+      "compat",
+      "research",
+      "scan",
+      "paper-trade",
+      "review",
+      "team",
+      "adapt-run",
+      "adapt-report",
+      "adapt-paper",
+      "walkforward"
+    ],
+    "note": "usage: evoalpha [-h]\n                {status,learning,health,compat,research,scan,paper-trade,review,team,adapt-run,adapt-report,adapt-paper,walkforward} ...\n\nEvoAlpha unified workspace CLI\n\npositiona"
+  },
+  "summary": {
+    "legacy_missing": [],
+    "evo_missing": [],
+    "services_down": [],
+    "cli_ok": true
+  }
+}

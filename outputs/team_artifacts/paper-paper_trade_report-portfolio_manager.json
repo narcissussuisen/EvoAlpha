@@ -1,0 +1,29 @@
+{
+  "schema_version": "evoalpha.agent-artifact.v1",
+  "run_id": "paper-paper_trade_report",
+  "as_of": "2026-08-24",
+  "role": "portfolio_manager",
+  "status": "complete",
+  "created_at": "2026-08-31T08:15:49.015338+00:00",
+  "historical": true,
+  "evidence_refs": [
+    "yaoban-system\\outputs\\paper_trade_report.md"
+  ],
+  "report_ref": "yaoban-system\\outputs\\paper_trade_report.md",
+  "source": "yaoban-system",
+  "capital_base": "1,000,000",
+  "positions": [],
+  "portfolio_constraints": {},
+  "performance": {
+    "end_equity": "915,533.08",
+    "total_return_pct": "-8.45%",
+    "max_drawdown_pct": "-8.58%",
+    "trade_count": "12",
+    "win_rate_pct": "8.3%",
+    "avg_pnl_pct": "-3.64%"
+  },
+  "window": {
+    "start": "2026-08-17",
+    "end": "2026-08-24"
+  }
+}

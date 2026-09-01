@@ -1,0 +1,19 @@
+{
+  "schema_version": "evoalpha.agent-artifact.v1",
+  "run_id": "historical-walkforward_report",
+  "as_of": "historical",
+  "role": "strategy_researcher",
+  "status": "complete",
+  "created_at": "2026-08-31T08:13:48.802054+00:00",
+  "historical": true,
+  "report_title": "P3 walk-forward 稳健性验证报告（上升回档 live 口径）",
+  "facts": {
+    "report_bytes": 1727,
+    "source_type": "yaoban_markdown"
+  },
+  "evidence_refs": [
+    "yaoban-system\\outputs\\walkforward_report.md"
+  ],
+  "report_ref": "yaoban-system\\outputs\\walkforward_report.md",
+  "source": "yaoban-system"
+}

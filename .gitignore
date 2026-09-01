@@ -1,0 +1,33 @@
+# EvoAlpha 根仓库 .gitignore（1A-RO 第零步）
+
+# 已有独立 git repo（避免嵌套）
+yaoban-system/
+
+# 大体量只读资料源（由 learning/manifests source manifest SHA-256 管辖）
+妖板选手方法论拆解/
+选手学习资料/**/*.mp4
+
+# 大目录：运行时/第三方/研究 venv
+Vibe-Research/
+py_libs/
+因子研究/
+data/
+
+# 学习资料中的视频不入库（PNG/MD 保留）
+*.mp4
+
+# 生产交易与进化目录（Phase 1C/1D 前不施工；trading/evolution/risk 近空）
+# 注：agents/ 与 outputs/ 属 EvoAlpha 控制平面历史产物，入库
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# WorkBuddy 会话数据
+.workbuddy/

@@ -1,0 +1,9 @@
+{
+  "schema_version": "evoalpha.archive.v1",
+  "note": "历史产物归档清单；原文件保留在原模块，本清单用于审计与检索。",
+  "items": [
+    {"name": "hypotheses_report.md", "source": "yaoban-system/outputs/hypotheses_report.md", "archived": "EvoAlpha/archive/research_reports/hypotheses_report.md", "kind": "research"},
+    {"name": "case_regression.md", "source": "yaoban-system/outputs/case_regression.md", "archived": "EvoAlpha/archive/research_reports/case_regression.md", "kind": "research"},
+    {"name": "portfolio_sim_2026.md", "source": "yaoban-system/outputs/portfolio_sim_2026.md", "archived": "EvoAlpha/archive/research_reports/portfolio_sim_2026.md", "kind": "research"}
+  ]
+}

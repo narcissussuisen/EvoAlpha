@@ -1,0 +1,611 @@
+{
+	"type": "gh",
+	"name": "simonlin1212/Vibe-Research",
+	"version": "main",
+	"default": null,
+	"files": [
+		{
+			"type": "directory",
+			"name": "a-stock-data",
+			"files": [
+				{
+					"type": "directory",
+					"name": "assets",
+					"files": [
+						{
+							"type": "file",
+							"name": ".gitkeep",
+							"hash": "47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=",
+							"size": 0
+						},
+						{
+							"type": "file",
+							"name": "bmc-sponsor.png",
+							"hash": "sdTMDRk/jaIBnS9EpVkvTlh2hulQTMH7SR2lDLZ4/JI=",
+							"size": 60327
+						},
+						{
+							"type": "file",
+							"name": "wechat-sponsor.jpg",
+							"hash": "jSC2+UgYWaFsXIdeJmepwxefuyZDAHBqp0Z50mUJ8eo=",
+							"size": 107898
+						}
+					]
+				},
+				{
+					"type": "file",
+					"name": "CHANGELOG.md",
+					"hash": "zb5xuankjhF6S2ttmvKCNrdgYNtmUaU9LgLmtIqeh1k=",
+					"size": 23164
+				},
+				{
+					"type": "file",
+					"name": "LICENSE",
+					"hash": "GZurQBY60hE1wsTV20O//a2xTtgHYrBI8EkxzEhwC78=",
+					"size": 10760
+				},
+				{
+					"type": "file",
+					"name": "README.md",
+					"hash": "XFD9ztZCFcr9rOBbJ56r8Qco0bsECGfLK2kUmS7QWtA=",
+					"size": 45261
+				},
+				{
+					"type": "file",
+					"name": "SKILL.md",
+					"hash": "oc0SIPfqHFe7UI26ePG/6dn5K+16Xh8y9Dr+pBVDw94=",
+					"size": 127733
+				}
+			]
+		},
+		{
+			"type": "directory",
+			"name": "backend",
+			"files": [
+				{
+					"type": "directory",
+					"name": "tests",
+					"files": [
+						{
+							"type": "file",
+							"name": "test_api.py",
+							"hash": "jt2lWX8UwQpqXduvuzc2mqR7oNd8AP6wIQVCYX5K3hQ=",
+							"size": 2429
+						},
+						{
+							"type": "file",
+							"name": "test_fixes.py",
+							"hash": "3RbK7v1nJ+AeJjyI3D3FkgxmZHBoK47jknR7U0++FX8=",
+							"size": 10805
+						},
+						{
+							"type": "file",
+							"name": "test_live.py",
+							"hash": "WGOXMAtWn6wue6qsNhdaOQ8LOtlHhyyvz+wxukdiZsE=",
+							"size": 3833
+						},
+						{
+							"type": "file",
+							"name": "test_pure.py",
+							"hash": "66M7OT6hwiVpwUxRMIJ3+hB18xCiKTcdUTGQopT5QD0=",
+							"size": 2207
+						},
+						{
+							"type": "file",
+							"name": "test_reports_and_security.py",
+							"hash": "ezGTGnZQuOq0C1sroUcYjXcLzcwrK8Y7NwSKXNb9mpU=",
+							"size": 3635
+						}
+					]
+				},
+				{
+					"type": "file",
+					"name": ".env.example",
+					"hash": "DlIrNLqVFKNM+ZKttzwpb9qMjzfP6y89/OBe02BmQiU=",
+					"size": 1736
+				},
+				{
+					"type": "file",
+					"name": ".gitignore",
+					"hash": "dXyIru6BMgu3Ww0ckl/KcI4vkME1DUh6LhXPFFfPxL4=",
+					"size": 39
+				},
+				{
+					"type": "file",
+					"name": "app.py",
+					"hash": "Lr17976mBN+oTloQDCV96cAfmAuXO+xZDQIW9CRQUwc=",
+					"size": 22060
+				},
+				{
+					"type": "file",
+					"name": "astock.py",
+					"hash": "Mm45wIzZVBsHPASdoZ+4z2xhBWVpuw/5BkQaYk62T90=",
+					"size": 35778
+				},
+				{
+					"type": "file",
+					"name": "chat.py",
+					"hash": "F9YMSz+4Y5cThgbOTxJ8rBrx7h3lpxnGoEbRnsGO9Zc=",
+					"size": 18550
+				},
+				{
+					"type": "file",
+					"name": "cli_runtime.py",
+					"hash": "2eBSZgLwA+HHaKkGvJmzG3HZkKbj0zs636BTI1rdD9E=",
+					"size": 8804
+				},
+				{
+					"type": "file",
+					"name": "conftest.py",
+					"hash": "2FAGi2vfbZPG/y61In8ToxQKUfy1xKntQSddjrYPPzU=",
+					"size": 911
+				},
+				{
+					"type": "file",
+					"name": "gstock.py",
+					"hash": "25hqXkw5Cm9Y42mHYN65BpowsmVXuhYT22PlV8kKOSs=",
+					"size": 7981
+				},
+				{
+					"type": "file",
+					"name": "market.py",
+					"hash": "1OQHjiop5i2/Uee60G/UtoY5W1Mw7GY4krVWVZAQJwk=",
+					"size": 7643
+				},
+				{
+					"type": "file",
+					"name": "mcp_server.py",
+					"hash": "o8cmQiO+lVTEkrt+sbq/f4xNOTtCYQZr5pz+wYfuhL0=",
+					"size": 3078
+				},
+				{
+					"type": "file",
+					"name": "myreports.py",
+					"hash": "2O3oFBQBWh0e7N6lY3oPgFvnNihXoOIq7pgnf1opd0w=",
+					"size": 7879
+				},
+				{
+					"type": "file",
+					"name": "news_sources.json",
+					"hash": "BUNuNt0FXWelEW5AqvjCmQX+1+FJYtxh419CDCdQPL8=",
+					"size": 14933
+				},
+				{
+					"type": "file",
+					"name": "newsradar.py",
+					"hash": "X3y3diFfhE5EYoggYW+dpT0ha84IJlrcvYox/Qdu0h0=",
+					"size": 6336
+				},
+				{
+					"type": "file",
+					"name": "portfolio.py",
+					"hash": "DvVe5RNpY1ijaZEjtYSi2Htt7h0JIuIghQIPoT8g3r0=",
+					"size": 6560
+				},
+				{
+					"type": "file",
+					"name": "README.md",
+					"hash": "5d+Hzdi+ts6z2TC3Rkarnh/aIRz3jZI2F/T+0blA6ps=",
+					"size": 4463
+				},
+				{
+					"type": "file",
+					"name": "requirements.txt",
+					"hash": "YCRWA0vVGVPuf9570+nFkSQA6ZE1REXB9z4vapy0lp0=",
+					"size": 308
+				},
+				{
+					"type": "file",
+					"name": "requirements-dev.txt",
+					"hash": "5XTBAEmNrQP6/rwS+/lf52C3YWEZ4gtIoaP0lBlESnA=",
+					"size": 326
+				}
+			]
+		},
+		{
+			"type": "directory",
+			"name": "docs",
+			"files": [
+				{
+					"type": "directory",
+					"name": "screenshots",
+					"files": [
+						{
+							"type": "file",
+							"name": "daily-review.png",
+							"hash": "Ap8bQg3S4wjjRaxusCTVuwQjeQQeWtRuQU2hVWE4GY0=",
+							"size": 401446
+						},
+						{
+							"type": "file",
+							"name": "intel.png",
+							"hash": "Gm0aP7vJvFBXwlY2W9OAplIHf95iRLBk8990oHfE5Rs=",
+							"size": 613913
+						},
+						{
+							"type": "file",
+							"name": "stock-detail.png",
+							"hash": "hBMw9ghRRHHDOITKTLZ73RW6cYGnSxNYUpYbl5VKhSM=",
+							"size": 480903
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "directory",
+			"name": "frontend",
+			"files": [
+				{
+					"type": "directory",
+					"name": "public",
+					"files": [
+						{
+							"type": "file",
+							"name": "favicon.svg",
+							"hash": "CeD3Y/avCUCZ6kVQy8w5wd/igCox/bkUEsrnRsIvTUs=",
+							"size": 497
+						}
+					]
+				},
+				{
+					"type": "directory",
+					"name": "src",
+					"files": [
+						{
+							"type": "directory",
+							"name": "hooks",
+							"files": [
+								{
+									"type": "file",
+									"name": "useDarkMode.ts",
+									"hash": "Bxc7zH4mGpGW1nkD2EQHQmIyOZTVfCQeWljEfQzR3Ns=",
+									"size": 689
+								}
+							]
+						},
+						{
+							"type": "directory",
+							"name": "data",
+							"files": [
+								{
+									"type": "file",
+									"name": "sectors.json",
+									"hash": "jCAUX8LpNf2nDr/rP2bXh7DCiPBc5s5idS/cU0RNwhg=",
+									"size": 3720
+								}
+							]
+						},
+						{
+							"type": "directory",
+							"name": "components",
+							"files": [
+								{
+									"type": "directory",
+									"name": "ui",
+									"files": [
+										{
+											"type": "file",
+											"name": "AskAiButton.tsx",
+											"hash": "FLbd4jr/++76en1+yAKBfV1jlG98T68+hoU7KmI1YOo=",
+											"size": 10737
+										},
+										{
+											"type": "file",
+											"name": "Disclaimer.tsx",
+											"hash": "553M8Fl4VBgyNXb3cWmsXi2V/sDw0xqOemWLo1XlgHs=",
+											"size": 1228
+										},
+										{
+											"type": "file",
+											"name": "EarningsSnapshot.tsx",
+											"hash": "V/OAlsHzWDPXstw6WZcBrlXZipMOX7+q2XAlkdVFg/A=",
+											"size": 4523
+										},
+										{
+											"type": "file",
+											"name": "GlassCard.tsx",
+											"hash": "F6Qf9pfAzqbUOzk4D/M6ftVbbXPa1hP6+7wgTilVrAw=",
+											"size": 645
+										},
+										{
+											"type": "file",
+											"name": "PageHeader.tsx",
+											"hash": "RxzA/rO8foOa6At0C9hQwhFhlJ19jD4++qXNJV7OyQs=",
+											"size": 566
+										},
+										{
+											"type": "file",
+											"name": "SaveNoteButton.tsx",
+											"hash": "U7Z4egQ8rxNOzIoxvirfhFTh97d+FT5f7b1XyHWnz34=",
+											"size": 890
+										}
+									]
+								},
+								{
+									"type": "directory",
+									"name": "layout",
+									"files": [
+										{
+											"type": "file",
+											"name": "Layout.tsx",
+											"hash": "Nx5zrWZv6VUxvOjxkHqwq+c+mHTNXDb2ppIsBLXgIU0=",
+											"size": 8036
+										}
+									]
+								},
+								{
+									"type": "directory",
+									"name": "common",
+									"files": [
+										{
+											"type": "file",
+											"name": "ErrorBoundary.tsx",
+											"hash": "XNjqO8eB2k7nYG/DnRumF5GufBtjj/lcM2aR2sUP4cQ=",
+											"size": 829
+										}
+									]
+								}
+							]
+						},
+						{
+							"type": "directory",
+							"name": "lib",
+							"files": [
+								{
+									"type": "file",
+									"name": "ai-models.ts",
+									"hash": "YJuzDLMQlyUuNeC08SxNQPQssCCXCoCOCH8xbe9LvuE=",
+									"size": 4145
+								},
+								{
+									"type": "file",
+									"name": "api.ts",
+									"hash": "ZdCZjBJiBlole+DXJ+UyimFASKdMP9JdHTQ/k5l92/4=",
+									"size": 12433
+								},
+								{
+									"type": "file",
+									"name": "llm.ts",
+									"hash": "xE/lZ2qR3TuEk5qVpZHnBdiTKZKJhGiNZJAtrW3hcGE=",
+									"size": 4145
+								},
+								{
+									"type": "file",
+									"name": "notes.ts",
+									"hash": "OCPnwvKO/nnakQwraObxxrho+cfkVi/tmPW+jjTLGVg=",
+									"size": 1385
+								},
+								{
+									"type": "file",
+									"name": "utils.ts",
+									"hash": "0fHg1iy42NHgTCbhTehC2KFR91gS2BsEbGW10f6OSyc=",
+									"size": 169
+								},
+								{
+									"type": "file",
+									"name": "watchlist.ts",
+									"hash": "tmAsK62zAx2bPW4bC4n0Q3cE9VE6b3KIuYxHGOqIt+Y=",
+									"size": 1181
+								}
+							]
+						},
+						{
+							"type": "directory",
+							"name": "pages",
+							"files": [
+								{
+									"type": "file",
+									"name": "DailyReview.tsx",
+									"hash": "PBT1NWEAlaU42lD7e1ns10/cduKXEIxJTmRlSPOr4OE=",
+									"size": 25882
+								},
+								{
+									"type": "file",
+									"name": "Intel.tsx",
+									"hash": "eVEQLWPdf3a3f2VPiKuKs2D8LnCoVYCa90JjNgh2pgY=",
+									"size": 18318
+								},
+								{
+									"type": "file",
+									"name": "MyReports.tsx",
+									"hash": "6EC0NYeGnOQ4qvG9xsxFRTw0mZf1FgyAP8UCAdKypTo=",
+									"size": 7093
+								},
+								{
+									"type": "file",
+									"name": "Notes.tsx",
+									"hash": "zL6cKdwz2H0hhHwen3UsEHvyizGZBDrGl7F/PJycB4Q=",
+									"size": 3603
+								},
+								{
+									"type": "file",
+									"name": "Portfolio.tsx",
+									"hash": "RjqLDf3N6aCGkWGWXijMOVNFvHjo7T2yl2WxMGhtTcQ=",
+									"size": 16048
+								},
+								{
+									"type": "file",
+									"name": "SectorDetail.tsx",
+									"hash": "JpOoxiiuYm9fTygeh2E+TI6QbxTXq3YI/9zCfF7LxNg=",
+									"size": 3002
+								},
+								{
+									"type": "file",
+									"name": "Sectors.tsx",
+									"hash": "mBWtOirfFAod+tkO0ldpQuXVFWCJ1cYIAjCChYc5FT4=",
+									"size": 2093
+								},
+								{
+									"type": "file",
+									"name": "Settings.tsx",
+									"hash": "VM9vv2+a7E/15gPYmb+iZr40OK7rdvr5zlS3tL/8swo=",
+									"size": 11322
+								},
+								{
+									"type": "file",
+									"name": "StockData.tsx",
+									"hash": "/34AFFZVJ3Hmda9HquXJrNnHSzd87LYdVnHPN3pDiOs=",
+									"size": 32341
+								},
+								{
+									"type": "file",
+									"name": "Watchlist.tsx",
+									"hash": "TDZyGLhueFRvKB0Eu5JNPa/13o2mM3tVgYF4y+XG6Yw=",
+									"size": 6922
+								}
+							]
+						},
+						{
+							"type": "file",
+							"name": "index.css",
+							"hash": "5YQ9k0LuBXAWn0BqRFEfZ8rEDyWw59qti4JGg5NnC9Y=",
+							"size": 4904
+						},
+						{
+							"type": "file",
+							"name": "main.tsx",
+							"hash": "WHqT9jvhePLWDInr5fSGKZmf44+T9pYL5UvNIyyADoY=",
+							"size": 556
+						},
+						{
+							"type": "file",
+							"name": "router.tsx",
+							"hash": "D4/OdXeeC7sTgpmxm6evGZ2yzK3ffRwjm/Gr5P3v4B8=",
+							"size": 1285
+						}
+					]
+				},
+				{
+					"type": "file",
+					"name": ".gitignore",
+					"hash": "bl6sFeVenreJZE/6t77PcmG+BStjAt95JURxoA7/2NI=",
+					"size": 270
+				},
+				{
+					"type": "file",
+					"name": "index.html",
+					"hash": "X5j1xzCtARERvL7ivLutN6/yWmLzLRnyDYlkPFAjWEI=",
+					"size": 1083
+				},
+				{
+					"type": "file",
+					"name": "package.json",
+					"hash": "o0yIGbYK8oRR6ITs57eIPHUnIPtip4CEebXJX/hmiZ8=",
+					"size": 844
+				},
+				{
+					"type": "file",
+					"name": "package-lock.json",
+					"hash": "hVCAU9v5MdiQxiU9a2akbUBAgPBiHmef1EJLOO5Wxrw=",
+					"size": 157808
+				},
+				{
+					"type": "file",
+					"name": "postcss.config.js",
+					"hash": "4yZXuvYx18X03Ge0su4OyOfVs8QYYOCc3c58A3fNgLw=",
+					"size": 81
+				},
+				{
+					"type": "file",
+					"name": "tailwind.config.ts",
+					"hash": "MwZoqYPjIBXPdJzmSusk475qhAddNSv5seZtFVSsMI0=",
+					"size": 1491
+				},
+				{
+					"type": "file",
+					"name": "tsconfig.json",
+					"hash": "urcYGhqxvYwj9SPBwgS+7lXOae8XPlZfHb0iCD5bTIw=",
+					"size": 597
+				},
+				{
+					"type": "file",
+					"name": "vite.config.ts",
+					"hash": "DadUVf56WkMhMAvhR3z4rRf6E8LzxiZX/Is4FwPYsa4=",
+					"size": 1168
+				}
+			]
+		},
+		{
+			"type": "directory",
+			"name": "global-stock-data",
+			"files": [
+				{
+					"type": "directory",
+					"name": "assets",
+					"files": [
+						{
+							"type": "file",
+							"name": "bmc-sponsor.png",
+							"hash": "sdTMDRk/jaIBnS9EpVkvTlh2hulQTMH7SR2lDLZ4/JI=",
+							"size": 60327
+						},
+						{
+							"type": "file",
+							"name": "wechat-sponsor.jpg",
+							"hash": "jSC2+UgYWaFsXIdeJmepwxefuyZDAHBqp0Z50mUJ8eo=",
+							"size": 107898
+						}
+					]
+				},
+				{
+					"type": "directory",
+					"name": ".github",
+					"files": [
+						{
+							"type": "file",
+							"name": "FUNDING.yml",
+							"hash": "sU4f7U+mmxTqZh4W4pLvAZV5UQNIsxsghXZLD/QgIfI=",
+							"size": 74
+						}
+					]
+				},
+				{
+					"type": "file",
+					"name": "CHANGELOG.md",
+					"hash": "svvNsNpEnaPjMPmAxvFUFM7DL/yac0vNpPye16h+5yU=",
+					"size": 3284
+				},
+				{
+					"type": "file",
+					"name": "LICENSE",
+					"hash": "GZurQBY60hE1wsTV20O//a2xTtgHYrBI8EkxzEhwC78=",
+					"size": 10760
+				},
+				{
+					"type": "file",
+					"name": "README.md",
+					"hash": "G2SMv3DYC+C7BzV7UENaRhypmoRi/lsp2nlVkVf9dJk=",
+					"size": 19932
+				},
+				{
+					"type": "file",
+					"name": "SKILL.md",
+					"hash": "OQBYUfF5902XDKzPt3W8/7ndZNLM7azKXGEfxOvxAag=",
+					"size": 52968
+				}
+			]
+		},
+		{
+			"type": "file",
+			"name": ".gitignore",
+			"hash": "MabylNi0lsyNBo8V0CfFzPZyxPzg4brzRbC7bodhaB8=",
+			"size": 1318
+		},
+		{
+			"type": "file",
+			"name": "LICENSE",
+			"hash": "5oEFk5/BaZ8m/vXcbU7qKXjE9yCb9s1dnE64Y5XdezM=",
+			"size": 1069
+		},
+		{
+			"type": "file",
+			"name": "README.md",
+			"hash": "oAgHAKspUb4TR06QdcjDUf6oPNJBmLluAqZRHxJsdCc=",
+			"size": 14914
+		}
+	],
+	"links": {
+		"stats": "https://data.jsdelivr.com/v1/stats/packages/gh/simonlin1212/Vibe-Research@main"
+	}
+}

@@ -1,0 +1,28 @@
+{
+  "schema_version": "evoalpha.agent-artifact.v1",
+  "purpose": "统一多智能体研究、组合与模拟交易产物",
+  "required_common": ["run_id", "as_of", "role", "status", "evidence_refs", "created_at"],
+  "statuses": ["complete", "incomplete", "blocked", "failed"],
+  "roles": {
+    "researcher": {"outputs": ["research_question", "facts", "hypotheses", "data_gaps"]},
+    "strategy_researcher": {"outputs": ["strategy_id", "rules", "backtest_ref", "walkforward_ref", "promotion_status"]},
+    "trader": {"outputs": ["portfolio_date", "orders", "execution_assumptions", "execution_status"]},
+    "portfolio_manager": {"outputs": ["capital_base", "positions", "allocation_rationale", "portfolio_constraints"]},
+    "risk_manager": {"outputs": ["risk_status", "limits_checked", "blocking_reasons", "stress_refs"]},
+    "reviewer": {"outputs": ["pnl_attribution", "mistakes", "失效模式", "iteration_proposal"]},
+    "coordinator": {"outputs": ["decision", "dissenting_views", "gates", "decision_refs"]}
+  },
+  "decision_requirements": [
+    "researcher",
+    "strategy_researcher",
+    "trader",
+    "portfolio_manager",
+    "risk_manager",
+    "coordinator"
+  ],
+  "simulation_boundary": {
+    "mode": "paper_only",
+    "real_order_submission": false,
+    "promotion_requires": ["out_of_sample_validation", "risk_gate", "versioned_record"]
+  }
+}

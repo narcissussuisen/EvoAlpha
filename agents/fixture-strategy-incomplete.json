@@ -1,0 +1,11 @@
+{
+  "schema_version": "evoalpha.agent-artifact.v1",
+  "run_id": "strategy-smoke",
+  "as_of": "2026-08-31",
+  "role": "strategy_researcher",
+  "status": "incomplete",
+  "created_at": "2026-08-31T00:00:00Z",
+  "strategy_id": "yaoban-v5",
+  "evidence_refs": [],
+  "promotion_status": "candidate"
+}

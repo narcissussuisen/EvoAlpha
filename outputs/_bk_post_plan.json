@@ -1,0 +1,97 @@
+{
+  "date": "2026-08-31",
+  "stage": "post_plan",
+  "time": "2026-08-31 09:55:20",
+  "results": [
+    {
+      "name": "交易日历",
+      "ok": true,
+      "detail": "day=2026-08-31 previous_completed_day=2026-08-28 evidence=C:\\Users\\YZP\\WorkBuddy\\Claw\\方法论与研究文档\\yaoban-system\\outputs\\preflight_calendar\\2026-08-31\\post_plan\\fetch\\fetch_trade_calendar.json",
+      "critical": true
+    },
+    {
+      "name": "TDX行情",
+      "ok": true,
+      "detail": "server=115.238.56.198:7709 cat=0 bars=2 last=2026-08-31 10:00",
+      "critical": true
+    },
+    {
+      "name": "腾讯快照",
+      "ok": true,
+      "detail": "505 bytes",
+      "critical": true
+    },
+    {
+      "name": "账本/持仓",
+      "ok": true,
+      "detail": "rev=3 pos=0 transition=False equity=100000.0 missing=[]",
+      "critical": true
+    },
+    {
+      "name": "净值守恒",
+      "ok": true,
+      "detail": "curve=100000.0 calc=100000.0",
+      "critical": true
+    },
+    {
+      "name": "情绪表",
+      "ok": true,
+      "detail": "last=2026-08-28 expected=2026-08-28",
+      "critical": true
+    },
+    {
+      "name": "候选表",
+      "ok": true,
+      "detail": "max=2026-08-28 expected>=2026-08-28",
+      "critical": true
+    },
+    {
+      "name": "任务Action",
+      "ok": true,
+      "detail": "bad=[]",
+      "critical": true
+    },
+    {
+      "name": "任务历史",
+      "ok": false,
+      "detail": "unproven=['YaobanClosePipeline', 'YaobanDailyRebuild', 'YaobanDailyAcceptance']",
+      "critical": false
+    },
+    {
+      "name": "看板",
+      "ok": true,
+      "detail": "status=200 ok=True body_status=None",
+      "critical": true
+    },
+    {
+      "name": "残留进程",
+      "ok": true,
+      "detail": "none",
+      "critical": true
+    },
+    {
+      "name": "脚本语法",
+      "ok": true,
+      "detail": "bad=[]",
+      "critical": true
+    },
+    {
+      "name": "当日计划",
+      "ok": true,
+      "detail": "picks=4 cutoff=候选观察(输入≤2026-08-28收盘) published=2026-08-30 16:11:59 refreshed=2026-08-31 08:50:02 snapshot_match=True",
+      "critical": true
+    },
+    {
+      "name": "外盘新鲜度",
+      "ok": true,
+      "detail": "generated=2026-08-31 expected=2026-08-31",
+      "critical": true
+    }
+  ],
+  "summary": {
+    "pass": 13,
+    "fail": 0,
+    "warn": 1
+  },
+  "status": "pass"
+}

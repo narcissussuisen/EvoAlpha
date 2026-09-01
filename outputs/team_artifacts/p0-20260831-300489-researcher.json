@@ -1,0 +1,58 @@
+{
+  "schema_version": "evoalpha.agent-artifact.v1",
+  "run_id": "p0-20260831-300489",
+  "as_of": "2026-08-31T22:53:40.146+08:00",
+  "role": "researcher",
+  "status": "failed",
+  "created_at": "2026-08-31T15:04:38.580118+00:00",
+  "symbol": "300489",
+  "market": "SZ",
+  "research_question": "Vibe-Research run for 300489",
+  "facts": {
+    "evidence_count": 743,
+    "calculation_count": 15,
+    "stages": [
+      {
+        "stage": "profile",
+        "status": "complete",
+        "validator_ok": true
+      },
+      {
+        "stage": "financials",
+        "status": "complete",
+        "validator_ok": true
+      },
+      {
+        "stage": "estimates",
+        "status": "incomplete",
+        "validator_ok": true
+      },
+      {
+        "stage": "valuation",
+        "status": "incomplete",
+        "validator_ok": true
+      },
+      {
+        "stage": "risk",
+        "status": "complete",
+        "validator_ok": true
+      },
+      {
+        "stage": "report",
+        "status": "failed",
+        "validator_ok": false
+      }
+    ]
+  },
+  "hypotheses": [],
+  "data_gaps": [
+    "run status=failed"
+  ],
+  "evidence_refs": [
+    "Vibe-Research\\.local\\runs\\p0-20260831-300489\\manifest.json",
+    "Vibe-Research\\.local\\runs\\p0-20260831-300489\\evidence.json",
+    "Vibe-Research\\.local\\runs\\p0-20260831-300489\\calculations.json"
+  ],
+  "report_ref": "Vibe-Research\\.local\\runs\\p0-20260831-300489\\report.md",
+  "source": "Vibe-Research"
+}
