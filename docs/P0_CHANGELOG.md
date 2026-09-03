@@ -153,3 +153,52 @@
 - Vibe 校验触发器与脚本交易窗口统一为 09:35-11:30 / 13:05-15:00；失败后每分钟重试，最多 3 次。
 - 会覆盖 P0 生产时间表的旧注册器已 fail-fast 禁用（exit 64）；`register_board_refresh.ps1` 配置与现行时间表一致，继续保留。
 
+## 9/3 P0 观察日审查结论（用户裁定，2026-09-04 00:11 传达）
+**评级：严重异常——盘中风控链路未达标；盘后数据链最终恢复，但验收仍失败。P0 观察日不计为正常日。**
+
+| 链路 | 评定 |
+|---|---|
+| 盘前链 | 通过 |
+| 盘中行情/扫描 | 部分通过 |
+| 实时 tick 风控 | 失败 |
+| 收盘结算 | 通过 |
+| 盘后研究链 | 重试后通过 |
+| 日终平台验收 | 失败 |
+
+- **P0-1** tick daemon 09:30 启动、11:16 死于 WinError5（pos_live 写入撞锁）→ 持仓盲区 2h25m；13:52 看门狗上线后多轮重启无效（13:59/14:01 两次耗尽额度），14:11 schtasks_spawner 手动拉起恢复；验收 live_tick=false（数据源停 11:15:57，陈旧 6559s ≫ 90s 阈值）。
+- **P0-2** 看门狗"能告警不能恢复"：重启上限耗尽后无升级处置、无隔离状态；15:06-15:08 收盘后又把 daemon 正常自退误判为 missing，再耗尽 5 次额度。
+- **P1** 603538 计划外买入（10:35, 1500 股, +9.2%, offplan-盘中捕捉）；收盘灰度审计卖出"仅审计未执行"但账本仍持仓 1500 股，日报胜率/平均亏损口径与审计动作混淆（"卖出触发:无" vs 止损卖出记录并存造成误读）。
+- **P1** 盘后链 16:30 首跑 exit=1（已定位修复：Invoke-ChainStage stdout 污染 5e48f6a + UTF-8 BOM GBK 吞行 ada7f25）；22:23/22:39 重试成功；22:48 全量重跑验收 exit=4；最终验收 fail（live_tick / tasks / VibeResearchLiveTickValidation）。
+- **P2** 08:55 TDX 全服务器连接失败（非 critical 放行，P0-3 降级逻辑按设计兜底）；13:43 全市场行情覆盖率 91.5%。
+- 关键判断：**"故障被发现并留下记录" ≠ "风控链路运行正常"**；盘后数据生成成功不能视为平台日运行成功。
+
+## 9/4 凌晨 P0 加固施工（针对 9/3 裁定三项最优先处置）
+### 1. 看门狗 v2（`scripts/_tick_watch.py` 全量重写）
+- **收盘窗口修复（P0-2 直接根因）**：daemon 自退时刻 >15:05 而 v1 守到 >15:10 → 15:05-15:10 把正常自退当 missing 5 连假重启。v2：分钟 ≥903（15:03）起 missing/stale 一律不再重启，视为正常收盘。
+- **启动宽限 BOOT_GRACE=150s**：daemon 首写 pos_live 最坏 ~25s（TDX 连接+首轮），v1 首查 20s 可先于首写误判；每次 spawn 后宽限期内不判 stale。
+- **午休感知（v1 潜伏缺陷，全天守护必炸）**：daemon 午休 11:30-13:00 按设计停写 → v1 mtime 判据会把整个午休当挂死反复重启。v2：午休冻结 stale 判据 + 跨午休 age 扣除 90min（effective_age）。
+- **耗尽升级（P0-2 处置）**：watch_limit → `tick_guard_state.json`（state=restart_exhausted 隔离状态）+ 飞书告警（每日一条，f85cb8ae）+ degraded 观测模式（不再烧额度，人工复活 daemon 记 watch_recovered），退出码 6（对齐 scan 的 exit=6 语义）。
+- **进程存活 ≠ 数据更新**：唯一健康判据 = pos_live mtime；进程列表仅用于 missing 检测与 kill。
+- **状态机**：armed → ok/restart_exhausted → closed_ok；文件锁单实例 + beat 接管逻辑保留。
+- 验证：内置 `--selftest`（stub daemon + 快时钟，双场景）**12/12 PASS**——午休扣除单测、正常路径 exit 0 / closed_ok / 零重启、宽限保持（首重启 10.0s ≥ 8s 宽限）、挂死 2 次重启即耗尽、隔离状态落盘、degraded 复活观测、耗尽后零重启、收盘窗口自退不重启。
+### 2. 调度链切换（P0-1 根因处置）
+- `run_trading_task.ps1` 'tick' 模式：裸 `tick_monitor.py --daemon` → **`_tick_watch.py` 前台守护**（内部拉 daemon+监护）。v1 裸 daemon 一死即裸奔是 9/3 盲区 2h25m 的直接根因；YaobanTickDaemon 09:30 计划任务无需改动。
+- `tick_monitor.py`：清除 9/3 遗留 DBG 打点（每轮 4 条 stderr）。
+- `_restart_tick_daemon.py`：杀 watcher 后清理残留锁（消除新 watcher 120s beat 接管盲区；kill 失败时保留锁防双守）。
+### 3. 验收硬性项（`collect_daily_acceptance.py`，9/3 裁定第二项处置）
+- `tick_snapshot` 升级为**收盘新鲜度**：`pos_live.time >= 14:55`（v1 只查文件存在+日期，daemon 死 3 小时的陈旧快照样 pass——"进程存在≠数据更新"的验收层漏洞）。
+- 新增 `tick_watchdog`：当日 risk_events 无 watch_limit / data_failure halt。
+- 新增 `offplan_fills`：当日买入全部计划内（plan_match.in_plan / plan_ref offplan 前缀 / 兜底 sym∈picks），计划外成交即 fail。
+- 报告附 `tick_watchdog`（restart_events/fail_events）与 `offplan_fills_today` 明细；inputs 增 risk_events。
+- 验证：**9/3 回放 probe**——failed checks = live_tick、tick_watchdog（23 restarts/3 fail_events）、offplan_fills（603538）、tasks；tick_snapshot 15:05:56 达标 pass（盘中故障由 tick_watchdog 层捕获，分层正确）；整体 fail/exit 2 与裁定一致。
+### 4. 日报口径统一（`trader_daily.py`，9/3 裁定第三项处置）
+- 读 `close_decision_{date}.json`，灰度审计买卖单列**"未执行，不计入交易统计"**区块（9/3：卖出建议 603538 止损 1500股——账本仍持仓；买入建议 300670）。
+- 胜率/盈亏标注**累计闭环**（仅计实际成交闭环）+ 新增当日实际成交/当日闭环计数；流水表计划外买入标 `[计划外]`；口径脚注。
+- 验证：9/3 重放——实际成交 1 笔/当日闭环 0 笔/累计闭环 1 笔，offplan_buys=[603538]，audit_only_actions 与交易统计彻底分离。
+### 施工事故与教训（工具层，跨项目）
+- **并行 Edit 同文件互相覆盖**：同一消息里对同一文件发出多个 Edit 调用时，后写者基于旧内容读-改-写，会吃掉先写者的改动（本夜 3 个脚本各丢 1-2 处编辑，靠 selftest/回放抓回）。规矩：同文件多处修改必须串行单条 Edit 或整文件 Write，改完立即 grep 验证。
+### 待办（P2 与观察项）
+- TDX 行情源不稳定 + 覆盖率不足（91.5%）：暂维持 P0-3 降级逻辑；若与盘中监控故障叠加需评估 critical 升级。
+- 9/4（今日）09:30 起 YaobanTickDaemon 以 watcher 模式首跑：重点观察 watch_start→首写时序、午休 11:30-13:00 无假重启、15:05 正常自退零 watch_limit、任务 LastResult=0。
+- 603538 持仓 1500 股（offplan）：按止损纪律次日处置（止损价由 close_pipeline 审计已给出 stop_px 路径）。
+
