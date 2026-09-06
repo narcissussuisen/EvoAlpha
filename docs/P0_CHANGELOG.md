@@ -202,3 +202,39 @@
 - 9/4（今日）09:30 起 YaobanTickDaemon 以 watcher 模式首跑：重点观察 watch_start→首写时序、午休 11:30-13:00 无假重启、15:05 正常自退零 watch_limit、任务 LastResult=0。
 - 603538 持仓 1500 股（offplan）：按止损纪律次日处置（止损价由 close_pipeline 审计已给出 stop_px 路径）。
 
+## 9/6 例行窗口日检（23:59 用户触发；覆盖 9/4 首跑验证 + 9/5-9/6 周末静默 + 9/7 就绪）
+**结论：9/4 = 平台执行层整日停摆（9/3 夜 P0 加固施工的次生故障，责任在施工侧）；周末静默正常；9/7 就绪已修复到位（待 08:45 实跑验证）。**
+
+### 9/4 六链路评定
+| 链路 | 评定 | 证据 |
+|---|---|---|
+| 盘前链 | 失败（连锁起点） | Preflight 08:45 exit=1（14 PASS/1 FAIL，唯一失败=任务Action 全 10 任务 bad）→ Premarket/PlanGate exit=21（gate-infra） |
+| 盘中行情/扫描 | 未执行（全天被挡） | scan/monitor/notify 每分钟触发、全天 exit=20（post_plan gate missing）；无盘中产物 |
+| 实时 tick 风控 | 未启动 | tick 09:30 exit=20（1 秒退出，watcher 未运行）；pos_live 停在 9/3 15:05:56；watcher v2 首跑验证落空 |
+| 收盘结算 | 通过 | Close 15:10 exit=0；close_decision/日报/trader_daily 正常产出 |
+| 盘后研究链 | 通过 | PostClose 16:30→17:41；r5p/r6p/rebuild/next_plan 全成（sentiment/候选 max=9/4；9/7 计划 17:40:47 发布）；链 exit=1 为 acceptance incomplete 传播，非链故障 |
+| 日终平台验收 | 失败（incomplete） | 10 项 fail（live_tick/tick_snapshot/任务类）；tick_watchdog/offplan_fills 空 true（无运行故无事件） |
+
+### 根因（P0，施工次生故障）
+- preflight.py `runner_ok` 对 run_trading_task.ps1 做**文本扫描**，要求含 `--execute-risk` 等 8 token；9/4 凌晨 6948cc8 将 tick 分支 daemon 参数移驻 `_tick_watch.py` prod_cfg(daemon_argv) → runner 内 `--execute-risk` 计数=0 → runner_ok=False → EXPECTED 全 10 任务判 bad → preflight exit 1 → gate 链全天 fail-closed。
+- 佐证：9/4 08:45 stdout `FAIL 任务Action: bad=[全部10]`（其余 14 项 PASS：TDX/腾讯/账本守恒/情绪/候选均正常）；离线复算旧逻辑 bad=全 10、新逻辑 bad=[]。
+- 失败可见生效：08:45:25（failure:infra）与 08:50:02（gate-infra）两条飞书告警已推送，但当日无人响应（观察项：P0 窗口期 failure 推送需人工响应闭环）。
+
+### 处置（9/7 00:17-00:40 完成）
+1. **preflight.py 修复（453ba52）**：`runner_ok` 改为 runner+_tick_watch.py 并扫；任务Action detail 增暴露 `runner_ok/launch_ok`；hint 更新。py_compile OK；离线复算 0 bad。
+2. **看板复活**：23:43 用户重启后 Vibe 8766/5930/8765 全灭（`VibeResearchDashboardServices` 仅周一/五 9:20 拉起，晚于 preflight 08:45 的结构性缺口）→ 经 `schtasks /Run` 拉起：api/health 200 ok=True runtime=function_calling provider=deepseek，任务 LastResult=0。
+3. ledger rev 17→19 已提交（75907ee，9/4 零成交、equity 101,917.58）。
+
+### 9/7 就绪清单（00:40 快照）
+- 计划：2026-09-07_plan.json（9/4 17:40:47 发布，输入≤9/4 收盘；picks 000702/001313/001201/002157…；情绪 zt=44 温度 39.7 修复）✓
+- 任务：NextRun 全部指向 9/7 各时点（08:45/08:50/08:55/08:58/09:15/09:30/15:10/16:30/Vibe 09:35）✓
+- 数据：sentiment=候选=9/4；账本守恒 101,917.58（curve=calc）✓；看板复活 ✓；机器 23:43 重启后在线 ✓
+
+### 待办与风险
+- **P1** 300468 仓位 49,500（占净值 48.6%）超单票≤45% 纪律（涨停未兑现+执行层停摆两日未修剪）；603538 stop 26.866（9/4 收 27.32 其上）。9/7 开盘风控优先处置。
+- **P1（结构）** VibeResearchDashboardServices 触发（周一/五 9:20）晚于 preflight 08:45：建议增工作日 08:40 保活触发或并入 register_p0_schedule.ps1（**待用户批准**；今晚已手动拉起兜底）。
+- watcher v2 实跑验证顺延至 9/7 09:30（观察：watch_start→首写时序、午休冻结、15:05 自退零重启、TickDaemon LastResult=0）。
+- **P0 计分板：9/2 incomplete / 9/3 fail / 9/4 停摆 = 零正常日**；9/7+9/8 双清是窗口最低观察要求（≥1 正常日）的最后机会；9/8 晚关门四步按实际天数评估。
+- 9/4 为无效观察日，不补跑（无执行即无账本动作；盘后链已产出保留原状）。
+- **教训（跨脚本文本契约）**：修改 run_trading_task.ps1 分支/参数前，必须 grep 消费方（preflight runner_ok 8 token：--execute-risk/--e4-support/--temp-ladder/--min-amt/10/--execute/feishu_notify.py/generate_next_plan.py）；同类文本签名依赖一律先查消费方再动刀。
+
