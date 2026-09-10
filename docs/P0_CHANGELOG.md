@@ -405,3 +405,27 @@
 - **发现**：`YaobanLoopEngine`(16:35) 等 10 个任务实际为 Disabled；此前时间链中「16:35 循环引擎自动运行」的表述作废，已在 `DAY_TIMELINE` 更正。
 - 手工补跑 `run_board_refresh.ps1` 一次（9/10 为交易日，正常刷新看板快照），非计划外数据改动。
 
+
+## 9/11 凌晨：看板合并上游 v1.2.0 并切换生产（用户裁定：不需要 Codex 安装包 + 开盘前全部处理完）
+
+### 合并（位于 EvoAlpha\Vibe-Research；现为该 fork 的规范 git 仓库）
+- 基线 v1.0.0 的本地 69 个文件先入 git（`3e52752`），再合并上游 v1.2.0（`da36aff`）：22 个冲突文件 / 53 处逐块处置；
+  上游改本地未动 129 文件自动入库，我们的 30 个自研文件自动保住；决策见 `EVOALPHA_FORK.md`。
+- 验证：两端 `tsc --noEmit` 通过；desktop 93 项测试 90 通过 / 0 失败（3 项为被替换页面的退役断言）；Python 300 项通过；
+  orchestrator 关键子集 59 项中 5 项失败——2 项在生产基线同样红（历史遗留），3 项为 Windows 环境限制。**合并未引入回归。**
+
+### 去 Codex 运行时依赖
+- `@openai/codex-sdk@0.153.4` 硬依赖 `@openai/codex`，其 Windows 平台包 372.9MB（`npm install` 两次卡死即此）。
+- 处置：`orchestrator/vendor/empty-codex-platform` 空桩 + `package.json` `overrides`；其余可选依赖正常安装。
+  反例记录：早先 `--omit=optional` 把 pdfjs 需要的 `@napi-rs/canvas` 一起跳过 → `ReferenceError: DOMMatrix is not defined`，API 启动即崩。
+
+### ACL 回退补丁（否则 API 在普通用户计划任务里起不来）
+- 现象 `[api] 无法收紧 Windows 文件权限(exit 1)`；根因是上游 `Set-Acl`+`SetOwner` 需要 `SeSecurityPrivilege`。
+- 补丁：失败时回退 `icacls /inheritance:r /grant:r <当前用户>:(F)`，再用上游 `WINDOWS_CHECK_ACL` 复验，复验不过才抛错。
+
+### 切换与验证
+- 方式：原地替换生产目录（保留 `.local` 与 `validation/`），`.git` 一并放入；回滚 = `git checkout 3e52752` + `_vr_rollback_20260911`；提交 `9470e19`，tag `prod-20260911`。
+- 实测：三服务就绪 8766/5930/8765；`8766/health`=401、`5930/api/health`=200、`8765/board.json`=200；
+  `/vr/portfolio`(equity 93,325.36／持仓 300394·300468 带实时价)、`/vr/picks`(date=2026-09-11)、`/vr/alerts`、`/vr/board` 全 200；
+  经 UI 代理 `/api/vr/portfolio|picks` 200；live-tick 校验器 `node --check` 通过。
+- 待观察：09:35/13:05 live-tick 任务结果、08:35 体检看板项、上游全量后端测试（后台补跑）。
