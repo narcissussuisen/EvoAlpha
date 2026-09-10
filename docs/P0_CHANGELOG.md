@@ -202,6 +202,23 @@
 - 9/4（今日）09:30 起 YaobanTickDaemon 以 watcher 模式首跑：重点观察 watch_start→首写时序、午休 11:30-13:00 无假重启、15:05 正常自退零 watch_limit、任务 LastResult=0。
 - 603538 持仓 1500 股（offplan）：按止损纪律次日处置（止损价由 close_pipeline 审计已给出 stop_px 路径）。
 
+## 9/10 数据源事故与腾讯备胎抢救（TDX 全挂 → 盘前链连锁失败 → 当日恢复）
+
+### 事故
+- 09:15 起 TDX 全部服务器真实取数全空：我方 10 节点（9/1 P0-7 清单）+ 上游 a-stock-data 9 节点全测（mootdx/pytdx/bestip、日线/分钟/报价全维度）——TCP 通但 2 字节空 body，即工具包警告的「坏服务器」症状；判定为访问层面系统性问题（疑似 IP 被限），非个别服务器。
+- 连锁：09:10 时 9/10 计划缺失（9/9 盘后 next_plan 被 baostock 失败打断，本夜已重试补生成）→ Premarket rc=2 → PlanGate rc=1 → post-plan 门禁 fail → 09:30 tick daemon 被 gate 挡（当日仅一次触发）→ 持仓裸奔 + scan/monitor/notify 全天 rc=21。
+
+### 处置（用户指示：数据源没问题，用 a-stock-data）
+- 接入 `a-stock-data` V3.8 §备用源速查「K线(分钟)」腾讯备胎：新增 `src/core/tencent_minline.py`（mkline m1/m5 + qt.gtimg 报价，列对齐 TDX 口径；时间戳 202609101013→ISO 归一化；vol 手×100）。
+- 四路降级：`tick_monitor`（TDX 失败不再 return 2，双源全挂才 halt）、`scan_and_confirm`（pull_minutes 降级腾讯 m5，连接失败不再 return 5）、`monitor_intraday`（连接失败不再 return 3）、`preflight.py` TDX行情（备胎验活通过则降级 WARN 不 fail-closed）。
+- 恢复时间线：10:19 tick 冒烟 pos_live 刷新并触发 603538 止损告警（alert_only）→ 10:21 post-plan 门禁 PASS（17/0）→ 10:22 启动 YaobanTickDaemon → **10:23:00 603538 止损执行 1500@26.19（rev 26）** → 10:23 起 scan/monitor/notify rc=0。
+- 提交：yaoban-system `c7a37e7`；飞书事故恢复推送已发。
+
+### 教训
+1. TDX 是单点：协议级 TCP 7709 一旦被限，10+9 个节点同时空 body；分钟线必须常备腾讯 mkline 备胎（本次为接入）。
+2. pytdx `connect()` 返回 API 对象恒真，`if api.connect()` 连接判断是假验证——真实验活必须取数（P0-7 结论在 pytdx 上同样成立）。
+3. 门禁与消费方必须同源降级：只改 preflight 放行不改消费方=全天 rc 错误；本次四路同步降级才成立。
+
 ## 9/6 例行窗口日检（23:59 用户触发；覆盖 9/4 首跑验证 + 9/5-9/6 周末静默 + 9/7 就绪）
 **结论：9/4 = 平台执行层整日停摆（9/3 夜 P0 加固施工的次生故障，责任在施工侧）；周末静默正常；9/7 就绪已修复到位（待 08:45 实跑验证）。**
 
