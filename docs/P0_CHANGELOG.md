@@ -229,6 +229,28 @@
 
 **4. 收盘/盘后链备胎**：close_pipeline 收盘估值与 fetch_daily_minute_rebuild 均接入腾讯备胎（rebuild 用 mkline m60 增量回填+限流冷却+幂等续跑，双源全灭 exit 3 显式可见）——今日 15:10/16:30 双链在 TDX 不恢复时也能产出 9/10 数据与 9/11 计划。
 
+## 9/10 盘后链推送语义修复：`codes=0,0,0,0,3,0` 不是链故障
+
+**用户反馈的飞书推送**：「盘后链部分失败 2026-09-10 codes=0,0,0,0,3,0」。
+
+**核实结论：链没有故障**。六段 stage 中五段（rebuild/r5p/r6p/next_plan/log-review）全绿，唯一非零是 **acceptance=3**：
+- `collect_daily_acceptance.py` 退出码语义：`status=='pass'→0`；`status=='incomplete'→3`；其余非 pass→2；输入错误→4。故 **3 = 当日验收「输入缺口」，不是脚本崩溃**。
+- 9/10 缺口：`inputs.auction_freeze=missing`（早盘门禁事故导致集合竞价从未产出冻结文件）→ `status=incomplete`。
+- 7 项未过检查全部可回溯到早盘事故：`task_log_continuity`（09:30-10:2x 门禁拦截期缺口）、`auction_latest/freeze/delivery`（竞价未运行）、`live_tick`（13:05 Vibe 校验因 pos_live 计数交替失败）、`offplan_fills`（300394 计划外买入）、`tasks`（AuctionMonitor=21/TickDaemon=23/Vibe=2）。
+
+**根因（推送语义）**：`post_close_chain.ps1` 把 acceptance 的退出码与数据段退出码并入同一个 `failure` 推送 → 「链故障」与「当日评级」被混淆（9/4 变更日志已记录过同类现象，本次修根）。
+
+**修复（yaoban-system 6074cd8）**：
+1. 判定改为按 stage 名从 chain_manifest 读取（原位置索引在 stage 被跳过时会错位）；
+2. 数据段任一 failed → `[failure] 盘后链数据段失败 data_codes=...`；
+3. 仅 acceptance 非零 → `[alert] 盘后链数据段全部通过 … 日终验收未达标: status=incomplete exit=3 —— 属当日评级, 非链故障`；
+4. 全绿 → `[close] 盘后链全部通过 + 日终验收通过`；链 exit 码仍保持「有非零即 1」（未达标保持可见）。
+5. BOM 保留（该文件必须 BOM，否则 PS5.1 按 ANSI 读会复现 9/3 吞行事故）。
+
+**验证**：以 9/10 真实 manifest 模拟 → `stages=6 | data_codes=0,0,0,0,0 | acceptance_exit=3 | acceptance_status=incomplete` → **BRANCH=alert**（数据链全绿 + 验收未达标），符合预期。
+
+**今日验收能否改善**：不能，也不应改写——`auction_freeze` 缺口是历史事实（竞价当日确实未运行），且正式验收报告按设计为当日终局；`--force` 仅在既有报告 status!=pass 时允许盖写，但重跑会得到同样结论。
+
 ## ✅ 9/10 根因更正（用户裁定）：mootdx 没坏、服务端没故障——是我们服务器清单全是坏节点
 
 **我方 9/10 上午结论「TDX 中继服务器端行情停供」错误。** 用户给出可复现的替代解释并经实测确认：
