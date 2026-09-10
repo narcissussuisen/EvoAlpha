@@ -360,3 +360,26 @@
 - 9/4 为无效观察日，不补跑（无执行即无账本动作；盘后链已产出保留原状）。
 - **教训（跨脚本文本契约）**：修改 run_trading_task.ps1 分支/参数前，必须 grep 消费方（preflight runner_ok 8 token：--execute-risk/--e4-support/--temp-ladder/--min-amt/10/--execute/feishu_notify.py/generate_next_plan.py）；同类文本签名依赖一律先查消费方再动刀。
 
+## 9/10 夜间批次：晚间核验合并为一个只读确定性检查（取代 WorkBuddy 两个定时任务）
+**用户裁定**：把 WorkBuddy 里两个提示式定时任务（16:00 P0 窗口检查、18:00 盘后链校验）合并为一个检查；用户随后取消这两个任务。
+
+### 为什么承载在脚本+Windows 计划任务而不是 WorkBuddy 提示
+无头执行（不依赖会话唤醒）、写 task_logs 与 `outputs/validation/evening_check_<date>.json` 证据、复用同一飞书 hook、结论可版本化可复跑。
+
+### 三项增强及其 9/10 实证依据
+1. **时点 18:00 → 19:30**：9/10 盘后链 16:30 起跑、18:25:01 完成（115 分钟），18:00 只能报仍在运行。
+2. **加入断言而非只查存在性**：当日数据污染期间（daily_rebuilt 被截为 1 行 → 情绪 zt=1654），文件存在且日期正确的检查会全部通过；现改为情绪 zt 0-400、涨跌家数和 3000-7000、候选行数>1000、daily_rebuilt 抽样覆盖率≥90% 且最薄行数、计划 emotion.temp 0-100。
+3. **成交审计改为当日快照并集 + 账本反查**：旧检查只读最新一份 `confirm_*.json`，而 9/10 最新一份 `fill_ids=[]`，会漏报当日成交。
+
+### 交付
+- `scripts/evening_check.py`（只读、恒返回 0；结论由卡片承载，避免与通用失败推送重复）；`run_trading_task.ps1` 增 `evening-check` mode；`register_p0_schedule.ps1` 增注册+校验条目（YaobanEveningCheck 工作日 19:30）。
+
+### 验证
+- 9/10 21:23:25 经生产入口 `launch.ps1 -Mode evening-check` 端到端实跑：exit_code=0，stdout 末行 `push: OK`（飞书卡片已送达），报告落 `outputs/validation/evening_check_2026-09-10.json`。
+- 9/10 结论：**明日早盘可正常放行**——链 exit=1 属验收评级 incomplete 传播（非链故障），验收 7 项未过（task_log_continuity/auction_latest/auction_freeze/auction_delivery/live_tick/offplan_fills/tasks）。
+- 任务注册核对：`YaobanEveningCheck | Ready | 19:30 | ... -Mode evening-check`（`register_p0_schedule.ps1 -SkipVibe` 自校验打印 verified at 19:30）。
+
+### 诚实记录
+- 21:22:48 首次启动被沙箱拦截（`Start-Process` 重定向被拒），留下 exit_code=null、stdout 0B 的 task 日志存根，**保留不删**；21:23:25 授权后正常完成。
+- 覆盖说明：16:00 窗口计分板（9/2 incomplete / 9/3 fail / 9/4 停摆 / 9/7 fail / 9/8 fail = 零正常日）已永久失效，不再单独维护；其链产物/验收/溯源职能由晚间核验承载。若需盘中进度探针，另行提出。
+
