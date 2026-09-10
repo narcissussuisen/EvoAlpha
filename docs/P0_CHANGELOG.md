@@ -383,3 +383,25 @@
 - 21:22:48 首次启动被沙箱拦截（`Start-Process` 重定向被拒），留下 exit_code=null、stdout 0B 的 task 日志存根，**保留不删**；21:23:25 授权后正常完成。
 - 覆盖说明：16:00 窗口计分板（9/2 incomplete / 9/3 fail / 9/4 停摆 / 9/7 fail / 9/8 fail = 零正常日）已永久失效，不再单独维护；其链产物/验收/溯源职能由晚间核验承载。若需盘中进度探针，另行提出。
 
+## 9/10 夜间批次 Stage 1：运行节奏重构（交易日守卫 / 盘前前移 / 自愈 / 门禁解耦）
+**用户六项裁定落地**（纪要见 `docs/DAY_TIMELINE.md`）：盘前前移、fail 自愈、tick 与门禁解耦、时间链压缩、监控分级、学习资料自迭代、非交易日静默。本批完成其中 Stage 1（开盘前必须就位部分）。
+
+### 交付
+1. **交易日守卫**：新增 `yaoban-system/scripts/trading_calendar.py`（baostock `query_trade_dates` 缓存 + `refresh`/`check`，退出码 0/3/4）。`run_trading_task.ps1` 顶部守卫：非交易日静默 `exit 0`（零推送、零门禁文件）；日历不可用（4）按交易日执行并推一次 `calendar-unknown` 告警（fail-open 于执行，绝不静默跳过交易日）；维护类模式 `tdx-verify`/`calendar-refresh` 豁免；`launch.ps1` 增 `-Force` 透传（手动强制）。
+2. **计划表即代码**：`scripts/register_schedule.ps1` 重写为 18 项任务的唯一注册源（表驱动注册 + 注册后逐项校验 state/触发时刻/重复间隔/行动作）。改点：Preflight 08:45→**08:35**、新增 **SelfHeal 08:36**、PostCloseChain 16:30→**15:35**、EveningCheck 19:30→**17:30**、DashboardServices 08:40→**08:30**；周六维护任务并入日历刷新。注册结果 18/18 校验通过（NextRun 全部指向 9/11 正确时点）。
+3. **盘前自愈**：新增 `scripts/selfheal.py` + runner mode `selfheal`。只对 **critical** 失败负责（非致命项只报告）；剧本=进程残留清理/看板服务重启/任务重注册/TDX 探活/r5p+r6p 重建/计划重生成；**复检一律重跑真实 preflight**，绝不手写门禁；硬截止 08:48、数据类延至 09:08；每次处置写 `outputs/selfheal/<day>.json` 并推一张卡。硬编码禁止：改账本、写门禁判定、改生产代码。
+4. **门禁解耦**：`run_trading_task.ps1` 的 tick 分支移除 `Gate 'post_plan'`；`preflight.py` 增加「任务触发器」漂移检查（非致命）。`auction_monitor.py` 缺计划时降级为纯快照并写 `plan_missing`。
+5. **15:35 起跑配套**：`fetch_daily_minute_rebuild.py` 增加数据最终化断言（当日末根 m60 bar 时间戳=15:00 且收盘价==实时报价；不满足则每分钟复检，超时显式 WARN 后继续）。
+6. **非交易日静默覆盖**：`run_board_refresh.ps1` 与 Vibe live-tick 校验增守卫（后者此前在节假日仍写失败证据 rc=2，是 acceptance `live_tick` 反复失败的一个来源）。
+
+### 验证证据
+- `tests/test_ops_contract_20260910.py`（新增 15 项）：日历判定/未知 fail-open/守卫与豁免/tick 解耦/8-token 文本契约/计划表与 preflight 契约一致/自愈边界/auction 降级 —— 全绿；全量 `unittest discover` **199 项通过**。
+- 日历实测：9/11=trading(0)、9/12=non_trading(3)、10/1=non_trading(3)；2026 年 242 个交易日。
+- 最终化断言实测：9/10 `bar_ts=2026-09-10 15:00 bar_close=9.35 live=9.35 ts_ok=True px_ok=True`。
+- 注册校验：18 项 state/触发器/行动作全部匹配（Preflight 08:35、SelfHeal 08:36、PostCloseChain 15:35、EveningCheck 17:30、Dashboard 08:30/09:20）。
+
+### 诚实记录
+- **未版本化改动**：`Vibe-Research/scripts/run-live-tick-validation.ps1` 有改动，但 Vibe-Research 被根仓库 `.gitignore` 忽略且无独立 `.git`，无法提交；改动=在 `$today` 计算后插入四行守卫（调用 yaoban `trading_calendar.py check`，exit 3 时 `exit 0`），原文可回滚为删除该四行。
+- **发现**：`YaobanLoopEngine`(16:35) 等 10 个任务实际为 Disabled；此前时间链中「16:35 循环引擎自动运行」的表述作废，已在 `DAY_TIMELINE` 更正。
+- 手工补跑 `run_board_refresh.ps1` 一次（9/10 为交易日，正常刷新看板快照），非计划外数据改动。
+
