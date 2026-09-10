@@ -219,6 +219,16 @@
 2. pytdx `connect()` 返回 API 对象恒真，`if api.connect()` 连接判断是假验证——真实验活必须取数（P0-7 结论在 pytdx 上同样成立）。
 3. 门禁与消费方必须同源降级：只改 preflight 放行不改消费方=全天 rc 错误；本次四路同步降级才成立。
 
+### 下午批次（11:00-11:30，yaoban-system bbbf218）
+
+**1. mootdx 排查终结论（用户要求）**：协议层测试——`get_security_count(1)=27928` 全服务器 0.05s 正常应答，但行情数据载荷全空；39 台服务器 + mootdx/pytdx/bestip 三入口全空。判定：**TDX 中继服务器端行情停供（协议通、数据空），本地读取链路与库无问题**；恢复时间不可控，腾讯备胎为长期正确解。另发现本机 `envs/default/Scripts/python.exe` 是 workbuddy shim（241KB，base=versions/3.13.12），Popen 它会产生同 cmdline 双进程（shim+base），已在 tick daemon 加单实例锁兜底。
+
+**2. live_tick 三日连败根因修复**（Vibe-Research `orchestrator/src/vr_trader.ts`）：`freshness()` 首条检查是"日期==今天"——零成交日盘中账本 updated_at 停在昨日收盘（账本只在成交/收盘时写）→ 台账日期恒"昨日" → 端点整体 stale=true → validate-live-ticks not_stale 失败 → rc=2。9/7-9/9 恰为三日零成交。修复：当日账本无 fills 时豁免台账日期检查（pos_live 90 秒实时性检查不变）。typecheck 通过，已重启 8766 服务（无独立 git，记录于此）。
+
+**3. 双守护排查**（9/10 上午 10:22 手动拉起后）：scheduler RestartOnFailure 与手动 /Run 竞态 + watcher try_lock 在 beat 未写出窗口误抢锁 → 双 watcher 双 daemon 交替写 pos_live。修复：try_lock 增加"锁文件新鲜（<120s）且 beat 缺失=持有者存活"判定（4 用例单测过）；tick_monitor daemon 增加 O_EXCL 单实例锁（每轮刷新 mtime）。残余观察：300394 在 daemon 环境下偶发被跳过（限流相关，10/10 复测通过），午后再验。
+
+**4. 收盘/盘后链备胎**：close_pipeline 收盘估值与 fetch_daily_minute_rebuild 均接入腾讯备胎（rebuild 用 mkline m60 增量回填+限流冷却+幂等续跑，双源全灭 exit 3 显式可见）——今日 15:10/16:30 双链在 TDX 不恢复时也能产出 9/10 数据与 9/11 计划。
+
 ## 9/6 例行窗口日检（23:59 用户触发；覆盖 9/4 首跑验证 + 9/5-9/6 周末静默 + 9/7 就绪）
 **结论：9/4 = 平台执行层整日停摆（9/3 夜 P0 加固施工的次生故障，责任在施工侧）；周末静默正常；9/7 就绪已修复到位（待 08:45 实跑验证）。**
 
