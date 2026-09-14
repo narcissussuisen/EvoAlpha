@@ -17,7 +17,7 @@
     "live_source": "docs/dashboard/status.json",
     "dashboard_url": "http://127.0.0.1:8790/",
     "dashboard_note": "动态看板：常驻服务每次请求都在服务端重新探测（账本/19 个计划任务/归档 sha256/manifest/测试基线），按 F5 即最新。不要再生成静态 HTML。叙事状态只改 status.json 即可。",
-    "dashboard_ops": "任务 EvoAlphaRoadmapServer（每 5 分钟保活，IgnoreNew）；脚本 tools/roadmap_server.py + scripts/ensure_roadmap_server.ps1；日志 outputs/dashboard/roadmap_server.log"
+    "dashboard_ops": "按需启动（2026-09-14 用户裁定·定时任务全景审计）：双击 yaoban-system/scripts/open_dashboard.vbs → 幂等调用 scripts/ensure_roadmap_server.ps1 拉起服务（已在监听则跳过）并打开浏览器；原每 5 分钟保活任务 EvoAlphaRoadmapServer 已退役（286 次/日 → 0）。⚠️ 改了 build_roadmap_dashboard.py 须先杀 pythonw 再点该入口。脚本 tools/roadmap_server.py；日志 outputs/dashboard/roadmap_server.log"
   },
   "stages": [
     {
