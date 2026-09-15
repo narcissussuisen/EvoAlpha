@@ -1,0 +1,743 @@
+{
+ "dates": [
+  "2026-09-02",
+  "2026-09-03",
+  "2026-09-04",
+  "2026-09-07",
+  "2026-09-09",
+  "2026-09-10",
+  "2026-09-11",
+  "2026-09-14"
+ ],
+ "keys": {},
+ "patterns": "huigui,zt_huicai,xianren,qu_shi_fanbao",
+ "total": {
+  "n_items": 32,
+  "n_captured": 31
+ },
+ "days": [
+  {
+   "date": "2026-09-02",
+   "asof": "2026-09-01",
+   "n_items": 4,
+   "n_captured": 4,
+   "recall": 1.0,
+   "pattern_stats": {
+    "zt_huicai": 1,
+    "huigui": 3
+   },
+   "n_pool_subset": 4,
+   "no_data": [],
+   "skipped_short": [],
+   "rows": [
+    {
+     "date": "2026-09-02",
+     "name": "黄河旋风",
+     "sym": "600172",
+     "asof": "2026-09-01",
+     "captured": true,
+     "pattern": "huigui",
+     "patterns": [
+      "huigui",
+      "qu_shi_fanbao",
+      "zt_huicai"
+     ],
+     "sig_date": "2026-08-26",
+     "bars_since_sig": 4,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": true
+    },
+    {
+     "date": "2026-09-02",
+     "name": "诺德股份",
+     "sym": "600110",
+     "asof": "2026-09-01",
+     "captured": true,
+     "pattern": "huigui",
+     "patterns": [
+      "huigui",
+      "zt_huicai"
+     ],
+     "sig_date": "2026-08-27",
+     "bars_since_sig": 3,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": null
+    },
+    {
+     "date": "2026-09-02",
+     "name": "浪潮信息",
+     "sym": "000977",
+     "asof": "2026-09-01",
+     "captured": true,
+     "pattern": "zt_huicai",
+     "patterns": [
+      "qu_shi_fanbao",
+      "zt_huicai"
+     ],
+     "sig_date": "2026-09-01",
+     "bars_since_sig": 0,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": null
+    },
+    {
+     "date": "2026-09-02",
+     "name": "利君股份",
+     "sym": "002651",
+     "asof": "2026-09-01",
+     "captured": true,
+     "pattern": "huigui",
+     "patterns": [
+      "huigui",
+      "zt_huicai"
+     ],
+     "sig_date": "2026-08-25",
+     "bars_since_sig": 5,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": true
+    }
+   ],
+   "prod_pool": null
+  },
+  {
+   "date": "2026-09-03",
+   "asof": "2026-09-02",
+   "n_items": 4,
+   "n_captured": 4,
+   "recall": 1.0,
+   "pattern_stats": {
+    "huigui": 4
+   },
+   "n_pool_subset": 4,
+   "no_data": [],
+   "skipped_short": [],
+   "rows": [
+    {
+     "date": "2026-09-03",
+     "name": "佳力图",
+     "sym": "603912",
+     "asof": "2026-09-02",
+     "captured": true,
+     "pattern": "huigui",
+     "patterns": [
+      "huigui",
+      "qu_shi_fanbao",
+      "zt_huicai"
+     ],
+     "sig_date": "2026-09-01",
+     "bars_since_sig": 1,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": null
+    },
+    {
+     "date": "2026-09-03",
+     "name": "力鼎光电",
+     "sym": "605118",
+     "asof": "2026-09-02",
+     "captured": true,
+     "pattern": "huigui",
+     "patterns": [
+      "huigui",
+      "qu_shi_fanbao",
+      "zt_huicai"
+     ],
+     "sig_date": "2026-09-01",
+     "bars_since_sig": 1,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": null
+    },
+    {
+     "date": "2026-09-03",
+     "name": "金富科技",
+     "sym": "003018",
+     "asof": "2026-09-02",
+     "captured": true,
+     "pattern": "huigui",
+     "patterns": [
+      "huigui",
+      "zt_huicai"
+     ],
+     "sig_date": "2026-08-28",
+     "bars_since_sig": 3,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": null
+    },
+    {
+     "date": "2026-09-03",
+     "name": "科德教育",
+     "sym": "300192",
+     "asof": "2026-09-02",
+     "captured": true,
+     "pattern": "huigui",
+     "patterns": [
+      "huigui",
+      "qu_shi_fanbao"
+     ],
+     "sig_date": "2026-09-02",
+     "bars_since_sig": 0,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": null
+    }
+   ],
+   "prod_pool": null
+  },
+  {
+   "date": "2026-09-04",
+   "asof": "2026-09-03",
+   "n_items": 5,
+   "n_captured": 5,
+   "recall": 1.0,
+   "pattern_stats": {
+    "huigui": 3,
+    "zt_huicai": 2
+   },
+   "n_pool_subset": 5,
+   "no_data": [],
+   "skipped_short": [],
+   "rows": [
+    {
+     "date": "2026-09-04",
+     "name": "欢瑞世纪",
+     "sym": "000892",
+     "asof": "2026-09-03",
+     "captured": true,
+     "pattern": "zt_huicai",
+     "patterns": [
+      "zt_huicai"
+     ],
+     "sig_date": "2026-09-01",
+     "bars_since_sig": 2,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": true
+    },
+    {
+     "date": "2026-09-04",
+     "name": "高新发展",
+     "sym": "000628",
+     "asof": "2026-09-03",
+     "captured": true,
+     "pattern": "huigui",
+     "patterns": [
+      "huigui",
+      "zt_huicai"
+     ],
+     "sig_date": "2026-08-28",
+     "bars_since_sig": 4,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": true
+    },
+    {
+     "date": "2026-09-04",
+     "name": "协鑫能科",
+     "sym": "002015",
+     "asof": "2026-09-03",
+     "captured": true,
+     "pattern": "huigui",
+     "patterns": [
+      "huigui",
+      "zt_huicai"
+     ],
+     "sig_date": "2026-09-02",
+     "bars_since_sig": 1,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": true
+    },
+    {
+     "date": "2026-09-04",
+     "name": "远大控股",
+     "sym": "000626",
+     "asof": "2026-09-03",
+     "captured": true,
+     "pattern": "huigui",
+     "patterns": [
+      "huigui",
+      "zt_huicai"
+     ],
+     "sig_date": "2026-09-02",
+     "bars_since_sig": 1,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": false
+    },
+    {
+     "date": "2026-09-04",
+     "name": "久其软件",
+     "sym": "002279",
+     "asof": "2026-09-03",
+     "captured": true,
+     "pattern": "zt_huicai",
+     "patterns": [
+      "zt_huicai"
+     ],
+     "sig_date": "2026-08-31",
+     "bars_since_sig": 3,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": false
+    }
+   ],
+   "prod_pool": null
+  },
+  {
+   "date": "2026-09-07",
+   "asof": "2026-09-04",
+   "n_items": 4,
+   "n_captured": 4,
+   "recall": 1.0,
+   "pattern_stats": {
+    "huigui": 4
+   },
+   "n_pool_subset": 4,
+   "no_data": [],
+   "skipped_short": [],
+   "rows": [
+    {
+     "date": "2026-09-07",
+     "name": "光洋股份",
+     "sym": "002708",
+     "asof": "2026-09-04",
+     "captured": true,
+     "pattern": "huigui",
+     "patterns": [
+      "huigui",
+      "qu_shi_fanbao",
+      "zt_huicai"
+     ],
+     "sig_date": "2026-09-03",
+     "bars_since_sig": 1,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": true
+    },
+    {
+     "date": "2026-09-07",
+     "name": "东材科技",
+     "sym": "601208",
+     "asof": "2026-09-04",
+     "captured": true,
+     "pattern": "huigui",
+     "patterns": [
+      "huigui",
+      "zt_huicai"
+     ],
+     "sig_date": "2026-09-01",
+     "bars_since_sig": 3,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": true
+    },
+    {
+     "date": "2026-09-07",
+     "name": "隆平高科",
+     "sym": "000998",
+     "asof": "2026-09-04",
+     "captured": true,
+     "pattern": "huigui",
+     "patterns": [
+      "huigui",
+      "qu_shi_fanbao",
+      "zt_huicai"
+     ],
+     "sig_date": "2026-09-02",
+     "bars_since_sig": 2,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": false
+    },
+    {
+     "date": "2026-09-07",
+     "name": "泸天化",
+     "sym": "000912",
+     "asof": "2026-09-04",
+     "captured": true,
+     "pattern": "huigui",
+     "patterns": [
+      "huigui",
+      "zt_huicai"
+     ],
+     "sig_date": "2026-09-01",
+     "bars_since_sig": 3,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": false
+    }
+   ],
+   "prod_pool": null
+  },
+  {
+   "date": "2026-09-09",
+   "asof": "2026-09-08",
+   "n_items": 4,
+   "n_captured": 3,
+   "recall": 0.75,
+   "pattern_stats": {
+    "huigui": 3
+   },
+   "n_pool_subset": 3,
+   "no_data": [],
+   "skipped_short": [],
+   "rows": [
+    {
+     "date": "2026-09-09",
+     "name": "金帝股份",
+     "sym": "603270",
+     "asof": "2026-09-08",
+     "captured": true,
+     "pattern": "huigui",
+     "patterns": [
+      "huigui",
+      "qu_shi_fanbao",
+      "zt_huicai"
+     ],
+     "sig_date": "2026-09-07",
+     "bars_since_sig": 1,
+     "n_bars": 735,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": false
+    },
+    {
+     "date": "2026-09-09",
+     "name": "武汉凡谷",
+     "sym": "002194",
+     "asof": "2026-09-08",
+     "captured": false,
+     "pattern": null,
+     "patterns": null,
+     "sig_date": null,
+     "bars_since_sig": null,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": false
+    },
+    {
+     "date": "2026-09-09",
+     "name": "金富科技",
+     "sym": "003018",
+     "asof": "2026-09-08",
+     "captured": true,
+     "pattern": "huigui",
+     "patterns": [
+      "huigui",
+      "zt_huicai"
+     ],
+     "sig_date": "2026-09-02",
+     "bars_since_sig": 4,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": false
+    },
+    {
+     "date": "2026-09-09",
+     "name": "海通发展",
+     "sym": "603162",
+     "asof": "2026-09-08",
+     "captured": true,
+     "pattern": "huigui",
+     "patterns": [
+      "huigui",
+      "qu_shi_fanbao",
+      "zt_huicai"
+     ],
+     "sig_date": "2026-09-04",
+     "bars_since_sig": 2,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": true
+    }
+   ],
+   "prod_pool": null
+  },
+  {
+   "date": "2026-09-10",
+   "asof": "2026-09-09",
+   "n_items": 4,
+   "n_captured": 4,
+   "recall": 1.0,
+   "pattern_stats": {
+    "huigui": 3,
+    "zt_huicai": 1
+   },
+   "n_pool_subset": 4,
+   "no_data": [],
+   "skipped_short": [],
+   "rows": [
+    {
+     "date": "2026-09-10",
+     "name": "山东玻纤",
+     "sym": "605006",
+     "asof": "2026-09-09",
+     "captured": true,
+     "pattern": "huigui",
+     "patterns": [
+      "huigui",
+      "qu_shi_fanbao",
+      "zt_huicai"
+     ],
+     "sig_date": "2026-09-07",
+     "bars_since_sig": 2,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": true
+    },
+    {
+     "date": "2026-09-10",
+     "name": "沃特股份",
+     "sym": "002886",
+     "asof": "2026-09-09",
+     "captured": true,
+     "pattern": "huigui",
+     "patterns": [
+      "huigui",
+      "zt_huicai"
+     ],
+     "sig_date": "2026-09-03",
+     "bars_since_sig": 4,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": true
+    },
+    {
+     "date": "2026-09-10",
+     "name": "金能科技",
+     "sym": "603113",
+     "asof": "2026-09-09",
+     "captured": true,
+     "pattern": "huigui",
+     "patterns": [
+      "huigui",
+      "qu_shi_fanbao",
+      "zt_huicai"
+     ],
+     "sig_date": "2026-09-08",
+     "bars_since_sig": 1,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": false
+    },
+    {
+     "date": "2026-09-10",
+     "name": "南华期货",
+     "sym": "603093",
+     "asof": "2026-09-09",
+     "captured": true,
+     "pattern": "zt_huicai",
+     "patterns": [
+      "zt_huicai"
+     ],
+     "sig_date": "2026-09-02",
+     "bars_since_sig": 5,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": false
+    }
+   ],
+   "prod_pool": null
+  },
+  {
+   "date": "2026-09-11",
+   "asof": "2026-09-10",
+   "n_items": 3,
+   "n_captured": 3,
+   "recall": 1.0,
+   "pattern_stats": {
+    "huigui": 2,
+    "zt_huicai": 1
+   },
+   "n_pool_subset": 3,
+   "no_data": [],
+   "skipped_short": [],
+   "rows": [
+    {
+     "date": "2026-09-11",
+     "name": "特发信息",
+     "sym": "000070",
+     "asof": "2026-09-10",
+     "captured": true,
+     "pattern": "huigui",
+     "patterns": [
+      "huigui"
+     ],
+     "sig_date": "2026-09-03",
+     "bars_since_sig": 5,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": null
+    },
+    {
+     "date": "2026-09-11",
+     "name": "依顿电子",
+     "sym": "603328",
+     "asof": "2026-09-10",
+     "captured": true,
+     "pattern": "zt_huicai",
+     "patterns": [
+      "qu_shi_fanbao",
+      "zt_huicai"
+     ],
+     "sig_date": "2026-09-10",
+     "bars_since_sig": 0,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": true
+    },
+    {
+     "date": "2026-09-11",
+     "name": "博云新材",
+     "sym": "002297",
+     "asof": "2026-09-10",
+     "captured": true,
+     "pattern": "huigui",
+     "patterns": [
+      "huigui",
+      "qu_shi_fanbao",
+      "zt_huicai"
+     ],
+     "sig_date": "2026-09-08",
+     "bars_since_sig": 2,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": null
+    }
+   ],
+   "prod_pool": null
+  },
+  {
+   "date": "2026-09-14",
+   "asof": "2026-09-11",
+   "n_items": 4,
+   "n_captured": 4,
+   "recall": 1.0,
+   "pattern_stats": {
+    "huigui": 3,
+    "zt_huicai": 1
+   },
+   "n_pool_subset": 4,
+   "no_data": [],
+   "skipped_short": [],
+   "rows": [
+    {
+     "date": "2026-09-14",
+     "name": "兴森科技",
+     "sym": "002436",
+     "asof": "2026-09-11",
+     "captured": true,
+     "pattern": "huigui",
+     "patterns": [
+      "huigui",
+      "zt_huicai"
+     ],
+     "sig_date": "2026-09-08",
+     "bars_since_sig": 3,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": false
+    },
+    {
+     "date": "2026-09-14",
+     "name": "博敏电子",
+     "sym": "603936",
+     "asof": "2026-09-11",
+     "captured": true,
+     "pattern": "huigui",
+     "patterns": [
+      "huigui",
+      "qu_shi_fanbao",
+      "zt_huicai"
+     ],
+     "sig_date": "2026-09-08",
+     "bars_since_sig": 3,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": true
+    },
+    {
+     "date": "2026-09-14",
+     "name": "乐山电力",
+     "sym": "600644",
+     "asof": "2026-09-11",
+     "captured": true,
+     "pattern": "zt_huicai",
+     "patterns": [
+      "qu_shi_fanbao",
+      "zt_huicai"
+     ],
+     "sig_date": "2026-09-11",
+     "bars_since_sig": 0,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": false
+    },
+    {
+     "date": "2026-09-14",
+     "name": "新中港",
+     "sym": "605162",
+     "asof": "2026-09-11",
+     "captured": true,
+     "pattern": "huigui",
+     "patterns": [
+      "huigui",
+      "zt_huicai"
+     ],
+     "sig_date": "2026-09-10",
+     "bars_since_sig": 1,
+     "n_bars": 801,
+     "skipped_short": false,
+     "no_data": false,
+     "executed": false
+    }
+   ],
+   "prod_pool": {
+    "file": "2026-09-14_pattern_pool.json",
+    "asof": "2026-09-11",
+    "n_pool": 2308,
+    "captured": [
+     "002436",
+     "603936",
+     "605162"
+    ],
+    "n_captured": 3
+   }
+  }
+ ]
+}

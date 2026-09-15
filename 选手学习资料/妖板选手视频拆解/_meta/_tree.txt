@@ -1,0 +1,93 @@
+﻿[DIR] 01_战法核心
+    01_战法核心\20260428_涨停回踩低吸\record.md                                 5KB
+    01_战法核心\20260428_涨停回踩低吸\frames\01_总纲_五句口诀_涨停后回踩第二波.png        1,451KB
+    01_战法核心\20260428_涨停回踩低吸\frames\02_形态1-4_箱体回踩_巨量阴线_三小阴_缩量三连板.png    1,803KB
+    01_战法核心\20260428_涨停回踩低吸\frames\03_形态5_震荡5到7天缩量到极致.png         1,522KB
+    01_战法核心\20260605_趋势反包战法\record.md                                 7KB
+    01_战法核心\20260605_趋势反包战法\frames\01_6月5日盘面_血雨腥风_科技电力调整.png      1,466KB
+    01_战法核心\20260605_趋势反包战法\frames\02_止盈落袋与辽宁能源亏损出局.png           1,087KB
+    01_战法核心\20260605_趋势反包战法\frames\03_北证脉冲信号与切换方向.png               671KB
+    01_战法核心\20260816_仙人指路选股战法\record.md                              11KB
+    01_战法核心\20260816_仙人指路选股战法\frames\01_三个条件_位置_上影线_反包确认.png      1,194KB
+    01_战法核心\20260816_仙人指路选股战法\frames\02_盘中细节_量能温柔放量_分时急拉缓跌.png    1,015KB
+    01_战法核心\20260816_仙人指路选股战法\frames\03_形态图解与通达信选股公式源码.png          741KB
+    01_战法核心\20260816_仙人指路选股战法\frames\04_用法_次日确认打底仓_止损位置.png       1,039KB
+    01_战法核心\20260816_仙人指路选股战法\frames\05_实战教训_兴民智通一条上影线洗掉70%利润.png      885KB
+[DIR] _calib
+    _calib\calib_01.png                                             569KB
+[DIR] _meta
+    _meta\library_scan.json                                          40KB
+    _meta\library_scan.md                                            14KB
+    _meta\status_override.json                                        1KB
+    _meta\sweep_report.txt                                           13KB
+    _meta\定位体检报告.md                                                   5KB
+[DIR] _work
+    _work\20260417_01_圣阳拿下90                                        502KB
+    _work\batch2.log                                                  0KB
+    _work\batch_1_manifest.json                                       1KB
+    _work\batch_grad8_manifest.json                                   3KB
+    _work\20260417_01_圣阳拿下90，新吸新宝即将起\_sample\s00.png                274KB
+    _work\20260417_01_圣阳拿下90，新吸新宝即将起\_sample\s01.png                300KB
+    _work\20260417_01_圣阳拿下90，新吸新宝即将起\_sample\s02.png                268KB
+    _work\20260417_01_圣阳拿下90，新吸新宝即将起\_sample\s03.png                270KB
+    _work\20260417_01_圣阳拿下90，新吸新宝即将起\_sample\s04.png                251KB
+    _work\20260417_01_圣阳拿下90，新吸新宝即将起\_sample\s05.png                265KB
+    _work\20260417_01_圣阳拿下90，新吸新宝即将起\_sample\s06.png                233KB
+    _work\20260417_01_圣阳拿下90，新吸新宝即将起\_sample\s07.png                275KB
+    _work\20260417_01_圣阳拿下90，新吸新宝即将起\_sample\s08.png                498KB
+    _work\20260417_01_圣阳拿下90，新吸新宝即将起\_sample\s09.png                489KB
+    _work\20260417_01_圣阳拿下90，新吸新宝即将起\_sample\s10.png                500KB
+    _work\20260417_01_圣阳拿下90，新吸新宝即将起\_sample\s11.png                502KB
+    _work\20260428_01_小资金最强选漂战法，涨停回踩\meta.json                        0KB
+    _work\20260428_01_小资金最强选漂战法，涨停回踩\grid\grid_01.png             1,639KB
+    _work\20260428_01_小资金最强选漂战法，涨停回踩\sheet\sheet_01.png           1,451KB
+    _work\20260428_01_小资金最强选漂战法，涨停回踩\sheet\sheet_02.png           1,803KB
+    _work\20260428_01_小资金最强选漂战法，涨停回踩\sheet\sheet_03.png           1,522KB
+    _work\20260601_01_5w每日单吊一只，今天提前发\meta.json                        0KB
+    _work\20260601_01_5w每日单吊一只，今天提前发\sheet\sheet_01.png             106KB
+    _work\20260604_02_立志每天屹板：今天爽吃两板，\meta.json                        0KB
+    _work\20260604_02_立志每天屹板：今天爽吃两板，\sheet\sheet_01.png             429KB
+    _work\20260605_02_立志每天抓板：趋势反包战法，\meta.json                        0KB
+    _work\20260605_02_立志每天抓板：趋势反包战法，\grid\grid_01.png             1,683KB
+    _work\20260605_02_立志每天抓板：趋势反包战法，\grid\grid_02.png             1,651KB
+    _work\20260605_02_立志每天抓板：趋势反包战法，\grid\grid_03.png             1,390KB
+    _work\20260605_02_立志每天抓板：趋势反包战法，\grid\grid_04.png               265KB
+    _work\20260605_02_立志每天抓板：趋势反包战法，\sheet\sheet_01.png           1,466KB
+    _work\20260605_02_立志每天抓板：趋势反包战法，\sheet\sheet_02.png           1,087KB
+    _work\20260605_02_立志每天抓板：趋势反包战法，\sheet\sheet_03.png             671KB
+    _work\20260608_03_10.21立志每天吃板：今天\meta.json                        0KB
+    _work\20260608_03_10.21立志每天吃板：今天\sheet\sheet_01.png              46KB
+    _work\20260612_04_风向转变：高位开始松动撤退三\meta.json                        0KB
+    _work\20260612_04_风向转变：高位开始松动撤退三\sheet\sheet_01.png              14KB
+    _work\20260614_05_一个人最厉害的赚钱方法\meta.json                           0KB
+    _work\20260614_05_一个人最厉害的赚钱方法\sheet\sheet_01.png                 93KB
+    _work\20260621_06_股市新手必学的技巧，三分钟揭\meta.json                        0KB
+    _work\20260621_06_股市新手必学的技巧，三分钟揭\sheet\sheet_01.png             256KB
+    _work\20260816_03_一年只讲一次，仙人指路选漂战\meta.json                        0KB
+    _work\20260816_03_一年只讲一次，仙人指路选漂战\fullsheet\full_01.png          296KB
+    _work\20260816_03_一年只讲一次，仙人指路选漂战\fullsheet\full_02.png          885KB
+    _work\20260816_03_一年只讲一次，仙人指路选漂战\fullsheet\full_03.png        1,194KB
+    _work\20260816_03_一年只讲一次，仙人指路选漂战\fullsheet\full_04.png        1,200KB
+    _work\20260816_03_一年只讲一次，仙人指路选漂战\fullsheet\full_05.png        1,015KB
+    _work\20260816_03_一年只讲一次，仙人指路选漂战\fullsheet\full_06.png          741KB
+    _work\20260816_03_一年只讲一次，仙人指路选漂战\fullsheet\full_07.png        1,039KB
+    _work\20260816_03_一年只讲一次，仙人指路选漂战\grid\grid_01.png             2,826KB
+    _work\20260816_03_一年只讲一次，仙人指路选漂战\grid\grid_02.png             3,596KB
+    _work\20260816_03_一年只讲一次，仙人指路选漂战\grid\grid_03.png             1,728KB
+    _work\20260816_03_一年只讲一次，仙人指路选漂战\sheet\sheet_01.png           1,029KB
+    _work\20260827_07_11-05-036倍已成继续\meta.json                        0KB
+    _work\20260827_07_11-05-036倍已成继续\sheet\sheet_01.png              15KB
+    _work\20260828_08_11-35-356倍已成继续\meta.json                        0KB
+    _work\20260828_08_11-35-356倍已成继续\sheet\sheet_01.png             473KB
+
+=== _work 一期样例 ===
+[DIR] 20260417_01_圣阳拿下90，新吸新宝即将起
+    20260417_01_圣阳拿下90，新吸新宝即将起\sub  x5
+    20260417_01_圣阳拿下90，新吸新宝即将起\_sample  x12
+[DIR] 20260428_01_小资金最强选漂战法，涨停回踩
+    20260428_01_小资金最强选漂战法，涨停回踩  x1
+    20260428_01_小资金最强选漂战法，涨停回踩\grid  x1
+    20260428_01_小资金最强选漂战法，涨停回踩\sheet  x3
+[DIR] 20260601_01_5w每日单吊一只，今天提前发
+    20260601_01_5w每日单吊一只，今天提前发  x1
+    20260601_01_5w每日单吊一只，今天提前发\sheet  x1

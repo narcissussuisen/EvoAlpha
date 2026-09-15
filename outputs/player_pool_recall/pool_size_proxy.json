@@ -1,0 +1,246 @@
+{
+ "asof": "2026-09-14",
+ "nA": 250,
+ "nB": 150,
+ "production_default_live": {
+  "pullback_days_min": 1,
+  "pullback_days_max": 7,
+  "pullback_pct_min": 1.0,
+  "pullback_pct_max": 15.0,
+  "volume_ratio_max": 0.9,
+  "prior_gain_min_pct": 8.0
+ },
+ "missing": 0,
+ "rows": [
+  {
+   "label": "baseline(生产默认)",
+   "over": {},
+   "lookback": 4,
+   "keepA": 249,
+   "nA": 250,
+   "addB": 0,
+   "nB": 150,
+   "recall_0914": 4,
+   "n_player": 4,
+   "by_pattern": {
+    "huigui": 236,
+    "zt_huicai": 14,
+    "xianren": 3
+   }
+  },
+  {
+   "label": "lb6",
+   "over": {},
+   "lookback": 6,
+   "keepA": 249,
+   "nA": 250,
+   "addB": 21,
+   "nB": 150,
+   "recall_0914": 4,
+   "n_player": 4,
+   "by_pattern": {
+    "huigui": 261,
+    "zt_huicai": 11,
+    "xianren": 2
+   }
+  },
+  {
+   "label": "days_max=5",
+   "over": {
+    "pullback_days_max": 5
+   },
+   "lookback": 4,
+   "keepA": 204,
+   "nA": 250,
+   "addB": 0,
+   "nB": 150,
+   "recall_0914": 4,
+   "n_player": 4,
+   "by_pattern": {
+    "huigui": 191,
+    "zt_huicai": 14,
+    "xianren": 3
+   }
+  },
+  {
+   "label": "days_max=6",
+   "over": {
+    "pullback_days_max": 6
+   },
+   "lookback": 4,
+   "keepA": 240,
+   "nA": 250,
+   "addB": 0,
+   "nB": 150,
+   "recall_0914": 4,
+   "n_player": 4,
+   "by_pattern": {
+    "huigui": 227,
+    "zt_huicai": 14,
+    "xianren": 3
+   }
+  },
+  {
+   "label": "pct_max=10",
+   "over": {
+    "pullback_pct_max": 10.0
+   },
+   "lookback": 4,
+   "keepA": 233,
+   "nA": 250,
+   "addB": 0,
+   "nB": 150,
+   "recall_0914": 4,
+   "n_player": 4,
+   "by_pattern": {
+    "huigui": 218,
+    "zt_huicai": 16,
+    "xianren": 3
+   }
+  },
+  {
+   "label": "pct_max=12",
+   "over": {
+    "pullback_pct_max": 12.0
+   },
+   "lookback": 4,
+   "keepA": 245,
+   "nA": 250,
+   "addB": 0,
+   "nB": 150,
+   "recall_0914": 4,
+   "n_player": 4,
+   "by_pattern": {
+    "huigui": 232,
+    "zt_huicai": 14,
+    "xianren": 3
+   }
+  },
+  {
+   "label": "vol_ratio_max=0.8",
+   "over": {
+    "volume_ratio_max": 0.8
+   },
+   "lookback": 4,
+   "keepA": 236,
+   "nA": 250,
+   "addB": 0,
+   "nB": 150,
+   "recall_0914": 4,
+   "n_player": 4,
+   "by_pattern": {
+    "huigui": 220,
+    "zt_huicai": 17,
+    "xianren": 3
+   }
+  },
+  {
+   "label": "vol_ratio_max=0.85",
+   "over": {
+    "volume_ratio_max": 0.85
+   },
+   "lookback": 4,
+   "keepA": 244,
+   "nA": 250,
+   "addB": 0,
+   "nB": 150,
+   "recall_0914": 4,
+   "n_player": 4,
+   "by_pattern": {
+    "huigui": 230,
+    "zt_huicai": 15,
+    "xianren": 3
+   }
+  },
+  {
+   "label": "prior_gain=10",
+   "over": {
+    "prior_gain_min_pct": 10.0
+   },
+   "lookback": 4,
+   "keepA": 206,
+   "nA": 250,
+   "addB": 0,
+   "nB": 150,
+   "recall_0914": 4,
+   "n_player": 4,
+   "by_pattern": {
+    "huigui": 192,
+    "zt_huicai": 15,
+    "xianren": 3
+   }
+  },
+  {
+   "label": "prior_gain=12",
+   "over": {
+    "prior_gain_min_pct": 12.0
+   },
+   "lookback": 4,
+   "keepA": 181,
+   "nA": 250,
+   "addB": 0,
+   "nB": 150,
+   "recall_0914": 4,
+   "n_player": 4,
+   "by_pattern": {
+    "huigui": 165,
+    "zt_huicai": 17,
+    "xianren": 3
+   }
+  },
+  {
+   "label": "days_min=2",
+   "over": {
+    "pullback_days_min": 2
+   },
+   "lookback": 4,
+   "keepA": 216,
+   "nA": 250,
+   "addB": 0,
+   "nB": 150,
+   "recall_0914": 4,
+   "n_player": 4,
+   "by_pattern": {
+    "huigui": 204,
+    "zt_huicai": 13,
+    "xianren": 3
+   }
+  },
+  {
+   "label": "pct_min=2",
+   "over": {
+    "pullback_pct_min": 2.0
+   },
+   "lookback": 4,
+   "keepA": 236,
+   "nA": 250,
+   "addB": 0,
+   "nB": 150,
+   "recall_0914": 4,
+   "n_player": 4,
+   "by_pattern": {
+    "huigui": 223,
+    "zt_huicai": 14,
+    "xianren": 3
+   }
+  },
+  {
+   "label": "lb6+days_max=6",
+   "over": {
+    "pullback_days_max": 6
+   },
+   "lookback": 6,
+   "keepA": 248,
+   "nA": 250,
+   "addB": 17,
+   "nB": 150,
+   "recall_0914": 4,
+   "n_player": 4,
+   "by_pattern": {
+    "huigui": 256,
+    "zt_huicai": 11,
+    "xianren": 2
+   }
+  }
+ ]
+}
