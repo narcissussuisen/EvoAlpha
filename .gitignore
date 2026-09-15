@@ -42,3 +42,6 @@ docs/dashboard/
 # 临时工作区：一次性脚本、证据快照、修复前备份。
 # 约定：此处内容**随时可删**，需要长期保留的产物必须移出本目录并登记到 docs/_INDEX.md。
 _scratch/
+
+# learning/tools 下的一次性脚本与草稿（下划线前缀约定 = 临时，可随时删）
+learning/tools/_*

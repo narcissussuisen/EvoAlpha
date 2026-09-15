@@ -20,7 +20,9 @@ import sys
 import unicodedata
 
 EVOALPHA = pathlib.Path(__file__).resolve().parent.parent.parent
-STOCK_NAMES = EVOALPHA / 'yaoban-system' / 'data' / 'stock_names_full.json'
+# R2.8（2026-09-12）：改用只含个股的新表。旧表 stock_names_full.json 共 35086 条，
+# 其中 83% 是债/基金/指数，且 `000004` 被写成「工业指数」（真正的 000004 = *ST国华）。
+STOCK_NAMES = EVOALPHA / 'yaoban-system' / 'data' / 'stock_names_stocks.json'
 ALIAS_JSON = EVOALPHA / 'learning' / 'labels' / 'reference' / 'stock_alias.json'
 
 # 剥除的公司尾缀（生成别名变体；"圣阳股份"→"圣阳"，OCR 截断"圣阳股"同归一）
@@ -29,8 +31,10 @@ NAME_SUFFIXES = ('股份', '集团', '科技', '电子', '实业', '控股', '�
 # 指数/非个股特征（剔除出词典）
 INDEX_MARKERS = ('指数', 'Ｂ股', 'A股指数', '等权', '债', '基本', '180', 'ETF', 'LOF', '基金')
 
-# A 股权益代码前缀（0=深主板/中小, 3=创业板, 6=沪市含科创板；剔除 7/1/2/9 开头的债券/三板/重复名条目）
-EQUITY_FIRST_CHARS = ('0', '3', '6')
+# A 股权益代码前缀（与 yaoban-system `is_equity_code` 对齐）：
+#   沪 60/68（含科创板）｜深 000/001/002/003（主板+中小）· 300/301（创业板）｜北 92（原 43x/83x 已统一到 920xxx）
+# 剔除：01x-19x 债/基金、15x/16x/50x-58x 基金、200xxx·900xxx B股、399xxx·880xxx 指数/板块。
+EQUITY_PREFIXES = ('60', '68', '000', '001', '002', '003', '300', '301', '92')
 
 
 def norm_text(s: str) -> str:
@@ -45,16 +49,21 @@ def _is_index_like(name: str) -> bool:
 
 
 def _is_equity_code(code: str) -> bool:
-    return len(code) == 6 and code.isdigit() and code[0] in EQUITY_FIRST_CHARS
+    return (len(code) == 6 and code.isdigit()
+            and any(code.startswith(p) for p in EQUITY_PREFIXES))
 
 
 def build_alias_dict(source: pathlib.Path = STOCK_NAMES,
                      out: pathlib.Path = ALIAS_JSON) -> dict:
     """构建反向词典 {name_norm: [codes]} + 别名变体 + ambiguous 标记。"""
-    raw = json.loads(source.read_text(encoding='utf-8'))
+    # 兼容两段式（{_meta, names}）与旧扁平结构
+    _doc = json.loads(source.read_text(encoding='utf-8'))
+    raw = _doc.get('names', _doc) if isinstance(_doc, dict) else {}
     main: dict[str, list[str]] = {}
     excluded = 0
     for code, name in raw.items():
+        if code == '_meta':
+            continue
         code = str(code).strip()
         if not _is_equity_code(code):
             continue
