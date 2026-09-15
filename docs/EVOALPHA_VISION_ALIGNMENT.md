@@ -1,5 +1,8 @@
 # EvoAlpha 愿景对齐与双路线图并轨（Vision Alignment）
 
+> status: active
+> verified_at: 2026-09-15
+
 > 状态：2026-09-01 依据用户提供的重构会话记录（`docs/source_material/session-2026-08-31-evoalpha-restructure.jsonl`，sha256 `f9cf7a4e6f3c3bb49a5b59eef267ea2bb0f8e9b6da0c981b61551dc057fa16f9`，7,137,181 字节）与 ROADMAP.md / SYSTEM_MAP.md 交叉核对后固化
 > 用途：为 `YAOBAN_AGENT_BASELINE_AND_PHASE1_BLUEPRINT.md`（已批准施工图）提供愿景锚点；回答"往哪个方向做、如何做"
 

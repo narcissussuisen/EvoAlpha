@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>EvoAlpha 交易日时间链与飞书推送映射</title>
+<style>
+:root{
+  --bg:#14161a; --card:#1b1e23; --card2:#20242a; --line:#2b3037; --line2:#3a414a;
+  --tx:#e6e8eb; --tx2:#9aa3ad; --tx3:#6f7883;
+  --blue:#85B7EB; --teal:#5DCAA5; --amber:#EF9F27; --gray:#B4B2A9;
+  --red:#F09595; --green:#97C459; --purple:#AFA9EC;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);
+  font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;
+  font-size:13.5px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:32px 28px 56px}
+h1{font-size:21px;font-weight:500;margin:0 0 6px}
+.sub{color:var(--tx2);font-size:13px;margin-bottom:4px}
+.meta{color:var(--tx3);font-size:12px;margin-bottom:26px}
+h2{font-size:15px;font-weight:500;margin:34px 0 12px;padding-left:10px;
+   border-left:3px solid var(--blue)}
+h3{font-size:13.5px;font-weight:500;margin:20px 0 8px;color:var(--tx)}
+p{margin:8px 0}
+code{font-family:"Cascadia Mono",Consolas,monospace;font-size:12.2px;
+  background:var(--card2);padding:1px 5px;border-radius:4px;color:var(--blue)}
+table{width:100%;border-collapse:collapse;margin:12px 0 6px;font-size:12.6px;
+  background:var(--card);border-radius:10px;overflow:hidden}
+th{background:var(--card2);color:var(--tx2);font-weight:500;text-align:left;
+  padding:9px 11px;border-bottom:1px solid var(--line2);white-space:nowrap;font-size:12px}
+td{padding:8px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:none}
+td.t{font-family:"Cascadia Mono",Consolas,monospace;color:var(--amber);white-space:nowrap;font-weight:500}
+td.n{font-family:"Cascadia Mono",Consolas,monospace;color:var(--tx);white-space:nowrap}
+.tag{display:inline-block;padding:1px 7px;border-radius:20px;font-size:11.5px;
+  border:1px solid;white-space:nowrap;margin:1px 2px 1px 0}
+.k-status{color:var(--purple);border-color:#453f70;background:#241f3a}
+.k-event{color:var(--teal);border-color:#1d5a48;background:#122c24}
+.k-fail{color:var(--red);border-color:#5e2a2a;background:#2b1616}
+.k-none{color:var(--tx3);border-color:var(--line2);background:transparent}
+.k-auto{color:var(--blue);border-color:#21507d;background:#12222f}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+.card h4{margin:0 0 6px;font-size:13px;font-weight:500}
+.card .k{color:var(--tx3);font-size:11.5px;margin-bottom:8px;
+  font-family:"Cascadia Mono",Consolas,monospace}
+.card p{margin:4px 0;font-size:12.4px;color:var(--tx2)}
+.note{background:var(--card);border-left:3px solid var(--amber);border-radius:0 8px 8px 0;
+  padding:11px 14px;margin:14px 0;font-size:12.6px;color:var(--tx2)}
+.note b{color:var(--tx);font-weight:500}
+.ok{color:var(--green)}.bad{color:var(--red)}.warn{color:var(--amber)}
+.foot{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);
+  color:var(--tx3);font-size:11.8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>EvoAlpha 交易日时间链与飞书推送映射</h1>
+<div class="sub">19 个计划任务 · 3 条推送通道 · 1 个 webhook · 非交易日全线静默</div>
+<div class="meta">生成于 2026-09-14 22:10 · 证据源：<code>scripts/register_schedule.ps1</code>（机器权威调度表）· <code>docs/DAY_TIMELINE.md</code> · <code>scripts/status_push.py</code> · <code>scripts/feishu_notify.py</code> · <code>outputs/notifications/delivery_20260914.jsonl</code> · <code>schtasks /query</code> 实测状态</div>
+
+<h2>一、结论速览</h2>
+<div class="cards">
+  <div class="card">
+    <h4>通道一 · 生产事件推送</h4>
+    <div class="k">scripts/feishu_notify.py</div>
+    <p>7 类事件：<span class="tag k-event">premarket</span><span class="tag k-event">close</span><span class="tag k-event">selfcheck</span><span class="tag k-event">auction</span><span class="tag k-event">alert</span><span class="tag k-fail">failure</span><span class="tag k-event">fill</span></p>
+    <p>事件驱动、按 <code>event_key</code> 每日去重。含晨检卡、盘前/盘后汇报、盘中风险与成交、任务失败。</p>
+  </div>
+  <div class="card">
+    <h4>通道二 · 关键节点状态卡</h4>
+    <div class="k">scripts/status_push.py</div>
+    <p><span class="tag k-status">status</span> 9 张卡：体检 / 盘前 / 验收 / 开盘 / 上午 / 午后 / 收盘 / 晚间 / 盘后链</p>
+    <p>只读观测者，不写门禁、不碰账本与计划。停用它对交易链路零影响。</p>
+  </div>
+  <div class="card">
+    <h4>通道三 · 会话自动化</h4>
+    <div class="k">WorkBuddy automation</div>
+    <p><span class="tag k-auto">15:50</span> D11 卖出裁量日报（工作日）</p>
+    <p>触发 WorkBuddy 会话执行只读观察，实际推送仍走通道一（<code>kind=alert</code>，<code>event_key=brain-observe:&lt;date&gt;</code>）。</p>
+  </div>
+</div>
+
+<div class="note">
+<b>单一出口：</b>三条通道共用同一个飞书群机器人 webhook —— 来源为环境变量 <code>YAOBAN_FEISHU_WEBHOOK</code>，或外部密钥文件 <code>C:\Users\YZP\WorkBuddy\yaoban_tasks\feishu_webhook.txt</code>（webhook 从不写入仓库产物或日志）。
+</div>
+
+<h2>二、交易日时间链（含推送映射）</h2>
+<table>
+<thead><tr><th>时刻</th><th>任务</th><th>系统动作</th><th>飞书推送</th></tr></thead>
+<tbody>
+<tr><td class="t">08:30 / 09:20</td><td class="n">VibeResearchDashboardServices</td><td>看板服务保活</td><td><span class="tag k-none">无</span></td></tr>
+<tr><td class="t">08:35</td><td class="n">YaobanPreflight</td><td>infra 体检 17 项；fail-closed 中止盘前链（tick 除外）</td><td><span class="tag k-none">无直接推送</span> 结果由 08:36 状态卡承载</td></tr>
+<tr><td class="t">08:36</td><td class="n">YaobanSelfHeal</td><td>按剧本自愈并重跑真实体检；恒 rc=0</td><td><span class="tag k-none">无独立推送</span> 结论并入 08:36 体检卡</td></tr>
+<tr><td class="t">08:36–22:30<br><span style="color:var(--tx3)">每 5 分钟</span></td><td class="n">YaobanStatusPush</td><td>只读观测：按节点到点渲染状态卡</td><td><span class="tag k-status">status</span> 9 张节点卡（详见第三节）</td></tr>
+<tr><td class="t">08:50</td><td class="n">YaobanPremarket</td><td>刷新当日计划、推盘前卡</td><td><span class="tag k-event">premarket</span> 盘前汇报文本<br><span class="tag k-status">status</span> 盘前就绪卡</td></tr>
+<tr><td class="t">08:55</td><td class="n">YaobanPlanGate</td><td>post_plan 门禁验收</td><td><span class="tag k-status">status</span> 计划验收卡（门禁失败时不再另发卡片）</td></tr>
+<tr><td class="t">08:58</td><td class="n">YaobanMorningCheck</td><td>唯一盘前自检卡（含自愈结果）</td><td><span class="tag k-event">selfcheck</span> 晨检卡</td></tr>
+<tr><td class="t">09:00 起<br><span style="color:var(--tx3)">每 30 分 ×7h</span></td><td class="n">YaobanTdxProbe</td><td>TDX 双判据验活</td><td><span class="tag k-event">alert</span> 仅在恢复时推 1 条</td></tr>
+<tr><td class="t">09:15–09:30<br><span style="color:var(--tx3)">每分钟</span></td><td class="n">YaobanAuctionMonitor</td><td>竞价快照 / 冻结观察名单（只读）</td><td><span class="tag k-event">auction</span> 竞价冻结时推（经 notify 任务）</td></tr>
+<tr><td class="t">09:15–15:01<br><span style="color:var(--tx3)">每分钟</span></td><td class="n">YaobanEventNotify</td><td>去重推送盘中风险 / 成交 / 监控缺口事件</td><td><span class="tag k-event">alert</span> 盘中事件<br><span class="tag k-fail">failure</span> 监控中断<br><span class="tag k-event">fill</span> 模拟成交</td></tr>
+<tr><td class="t">09:30</td><td class="n">YaobanTickDaemon</td><td>秒级持仓风控（止损 / 炸板 / 破 VWAP 减半）；<b>不依赖门禁</b></td><td><span class="tag k-event">alert</span> 守护降级 / 重启耗尽</td></tr>
+<tr><td class="t">09:30–15:01<br><span style="color:var(--tx3)">每分钟</span></td><td class="n">YaobanScanConfirm</td><td>全市场扫描 → 异动池 → 三引擎确认 → 买入</td><td><span class="tag k-fail">failure</span> 仅在阶段失败时</td></tr>
+<tr><td class="t">09:30–15:01<br><span style="color:var(--tx3)">每分钟</span></td><td class="n">YaobanIntradayMonitor</td><td>持仓 / 备选分时触发与提醒</td><td><span class="tag k-fail">failure</span> 仅在阶段失败时</td></tr>
+<tr><td class="t">09:35 / 13:05</td><td class="n">VibeResearchLiveTickValidation</td><td>校验 tick 数据实时性</td><td><span class="tag k-none">无</span></td></tr>
+<tr><td class="t">09:35–11:26<br>13:05–14:56<br><span style="color:var(--tx3)">每 3 分钟</span></td><td class="n">YaobanBoardRefresh</td><td>看板快照重建</td><td><span class="tag k-none">无</span></td></tr>
+<tr><td class="t">15:10</td><td class="n">YaobanClosePipeline</td><td>回填 → 全天决策重建 → 记账 + 收盘估值 + 看板 + 归因</td><td><span class="tag k-event">close</span> 盘后汇报文本</td></tr>
+<tr><td class="t">15:35</td><td class="n">YaobanPostCloseChain</td><td>rebuild → r5p → r6p → next_plan → acceptance → log-review</td><td><span class="tag k-fail">failure</span> 数据段失败<br><span class="tag k-event">alert</span> 数据段全过但验收未达标<br><span class="tag k-event">review</span> 日志复盘</td></tr>
+<tr><td class="t">15:50</td><td class="n">D11 卖出裁量日报<br><span style="color:var(--tx3)">WorkBuddy automation</span></td><td>只读观察 brain 介入卖出的保真度</td><td><span class="tag k-event">alert</span> <code>brain-observe:&lt;date&gt;</code></td></tr>
+<tr><td class="t">17:30</td><td class="n">YaobanEveningCheck</td><td>八项合并核验；恒 rc=0，结论由卡片承载</td><td><span class="tag k-fail">failure</span> 有阻断项<br><span class="tag k-event">alert</span> 无阻断</td></tr>
+<tr><td class="t">22:00</td><td class="n">YaobanDailyIteration<br><span style="color:var(--tx3)">内核已实现，任务未注册</span></td><td>资料解析 → 知识卡片 → 画像 → 提案 → 影子回归</td><td><span class="tag k-none">待注册</span> 参数类过门槛自动生效，规则/代码类恒待人工确认</td></tr>
+<tr><td class="t">周六 10:00</td><td class="n">YaobanTdxServerVerify</td><td>TDX 候选池全量验活 + 交易日历刷新（维护类）</td><td><span class="tag k-none">无</span> 非交易日仍运行</td></tr>
+</tbody>
+</table>
+
+<div class="note">
+<b>已停用项：</b><code>YaobanLoopEngine</code>（原 16:35 循环工程）当前为 Disabled，不在运行时间链内。
+</div>
+
+<h2>三、9 张关键节点状态卡</h2>
+<table>
+<thead><tr><th>卡片</th><th>节点时刻</th><th>你从中看到</th><th>9/14 实测推送</th></tr></thead>
+<tbody>
+<tr><td>盘前体检</td><td class="t">08:36</td><td>体检 17 项计数 + 08:36 自愈结论</td><td class="t ok">08:41:02</td></tr>
+<tr><td>盘前就绪</td><td class="t">08:50</td><td>计划是否注入外盘快照、候选数、市场温度、隔夜外盘</td><td class="t ok">08:51:02</td></tr>
+<tr><td>计划验收</td><td class="t">08:55</td><td>post_plan 门禁结论：买入类链是否放行</td><td class="t ok">08:56:02</td></tr>
+<tr><td>开盘就绪</td><td class="t">09:30</td><td>晨检结论、净值 / 持仓数、tick 守护双信号</td><td class="t ok">09:31:05</td></tr>
+<tr><td>上午小结</td><td class="t">11:30</td><td>扫描最近成功时刻、tick 新鲜度、上午推送与成交计数</td><td class="t ok">11:32:20</td></tr>
+<tr><td>午后就绪</td><td class="t">13:05</td><td>看板重建、tick 数据校验、守护是否 degraded</td><td class="t ok">13:06:03</td></tr>
+<tr><td>收盘落账</td><td class="t">15:05</td><td>当日净值与累计收益、买卖笔数、风控状态、账本修订号</td><td class="t ok">15:11:02</td></tr>
+<tr><td>晚间核验</td><td class="t">17:45</td><td>17:30 八项核验结论（有阻断项则醒目列出）</td><td class="t ok">17:46:02</td></tr>
+<tr><td>盘后链·次日计划</td><td class="t">18:30</td><td>盘后链各 stage 成败、日终验收 status、次日计划</td><td class="t ok">18:31:02</td></tr>
+</tbody>
+</table>
+
+<p>实测时刻普遍晚于节点时刻 1–6 分钟，属<b>设计内行为</b>：<code>StatusPush</code> 先记 <code>pending</code>，由计划的 5 分钟重复窗在来源就绪后补推。连续 3 轮（约 15 分钟）来源仍缺失才升级 1 条 failure 告警，不会静默。</p>
+<div class="note">
+<b>时刻漂移的典型：</b>「收盘落账」卡节点定为 15:05，但其唯一来源 <code>close_decision_&lt;day&gt;.json</code> 由 15:10 的收盘链产出 —— 因此该卡真实的到达时刻恒为 15:10 之后（9/14 实测 15:11）。
+</div>
+
+<h2>四、事件推送通道（kind 分类）</h2>
+<table>
+<thead><tr><th>kind</th><th>触发者</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td class="n">premarket</td><td>YaobanPremarket 08:50</td><td>计划模式、市场温度 / 阶段、候选观察、纪律条款</td></tr>
+<tr><td class="n">close</td><td>YaobanClosePipeline 15:10</td><td>净值与累计收益、现金 / 持仓 / 成交笔数、当日盈亏、熔断状态</td></tr>
+<tr><td class="n">selfcheck</td><td>YaobanMorningCheck 08:58</td><td>唯一盘前自检卡（链 + 体检 + gate 合并结论）</td></tr>
+<tr><td class="n">auction</td><td>YaobanEventNotify</td><td>集合竞价冻结：关注标的、活跃样本数、仅观察不生成订单</td></tr>
+<tr><td class="n">alert</td><td>多源</td><td>盘中重大事件 / 监控恢复 / 日历不可用 / 日终验收通过 / 盘后链 verdict / TDX 恢复 / D11 观察</td></tr>
+<tr><td class="n">failure</td><td>多源</td><td>任务阶段失败（含退出码与未通过检查明细）/ 监控中断 / 盘后链数据段失败 / 晚间核验阻断项</td></tr>
+<tr><td class="n">fill</td><td>YaobanEventNotify</td><td>模拟成交：方向、标的、股数、成交价、触发规则</td></tr>
+<tr><td class="n">review</td><td>YaobanPostCloseChain</td><td>日志复盘摘要</td></tr>
+</tbody>
+</table>
+
+<div class="note">
+<b>降噪设计（2026-09-11）：</b>看门狗生命周期事件 <code>watch_start / watch_restart / watch_exit / watch_recovered / duplicate_watcher</code> 已从逐条告警流中剔除 —— 它们只留痕于 <code>risk_events.jsonl</code> 与 <code>tick_guard_state.json</code>，真故障走独立通道（<code>watch_limit</code> → alert、<code>daemon_crash</code> → 验收、<code>monitor-gap</code> → 监控中断卡）。
+</div>
+
+<h2>五、9/14（首个自主交易日）实测推送清单</h2>
+<p>当日共 26 条推送，<b>全部 <span class="ok">ok=True</span></b>。分布：<span class="tag k-status">status</span> 9 · <span class="tag k-event">alert</span> 7 · <span class="tag k-fail">failure</span> 4 · <span class="tag k-event">premarket</span> / <span class="tag k-event">selfcheck</span> / <span class="tag k-event">auction</span> / <span class="tag k-event">fill</span> / <span class="tag k-event">close</span> / <span class="tag k-event">review</span> 各 1。</p>
+<table>
+<thead><tr><th>时刻</th><th>kind</th><th>event_key</th><th>时段</th></tr></thead>
+<tbody>
+<tr><td class="t">00:53:32</td><td><span class="tag k-event">alert</span></td><td class="n">t0-readiness:2026-09-13</td><td>前夜（非时间链）</td></tr>
+<tr><td class="t">08:41:02</td><td><span class="tag k-status">status</span></td><td class="n">status:…:preflight</td><td>盘前</td></tr>
+<tr><td class="t">08:50:03</td><td><span class="tag k-event">premarket</span></td><td class="n">premarket:2026-09-14</td><td>盘前</td></tr>
+<tr><td class="t">08:51:02</td><td><span class="tag k-status">status</span></td><td class="n">status:…:premarket</td><td>盘前</td></tr>
+<tr><td class="t">08:56:02</td><td><span class="tag k-status">status</span></td><td class="n">status:…:plan-gate</td><td>盘前</td></tr>
+<tr><td class="t">08:58:02</td><td><span class="tag k-event">selfcheck</span></td><td class="n">selfcheck:2026-09-14:morning</td><td>盘前</td></tr>
+<tr><td class="t">09:26:03</td><td><span class="tag k-event">auction</span></td><td class="n">auction-freeze:2026-09-14</td><td>盘中</td></tr>
+<tr><td class="t">09:31:05</td><td><span class="tag k-status">status</span></td><td class="n">status:…:open</td><td>盘中</td></tr>
+<tr><td class="t">09:33:04</td><td><span class="tag k-event">alert</span></td><td class="n">alert:…:tick_empty_stale:09:32:53:warn</td><td>盘中</td></tr>
+<tr><td class="t">09:35:05</td><td><span class="tag k-fail">failure</span></td><td class="n">monitor-gap:…:tick:0935</td><td>盘中</td></tr>
+<tr><td class="t">09:40:07</td><td><span class="tag k-fail">failure</span></td><td class="n">failure:…:scan</td><td>盘中</td></tr>
+<tr><td class="t">09:46:30</td><td><span class="tag k-fail">failure</span></td><td class="n">failure:…:tick</td><td>盘中</td></tr>
+<tr><td class="t">09:47:04</td><td><span class="tag k-event">alert</span></td><td class="n">monitor-recovered:…:tick:0947</td><td>盘中</td></tr>
+<tr><td class="t">09:49:01</td><td><span class="tag k-event">alert</span></td><td class="n">incident-poslive-deadlock:2026-09-14</td><td>盘中</td></tr>
+<tr><td class="t">10:00:07</td><td><span class="tag k-event">fill</span></td><td class="n">fill:…:001896:buy:11600:12.91</td><td>盘中</td></tr>
+<tr><td class="t">10:01:03</td><td><span class="tag k-event">alert</span></td><td class="n">alert:…:001896:risk_floor:10:05:alert</td><td>盘中</td></tr>
+<tr><td class="t">11:32:20</td><td><span class="tag k-status">status</span></td><td class="n">status:…:midday</td><td>午休</td></tr>
+<tr><td class="t">13:06:03</td><td><span class="tag k-status">status</span></td><td class="n">status:…:afternoon</td><td>午后</td></tr>
+<tr><td class="t">15:10:06</td><td><span class="tag k-event">close</span></td><td class="n">close:2026-09-14</td><td>盘后</td></tr>
+<tr><td class="t">15:11:02</td><td><span class="tag k-status">status</span></td><td class="n">status:…:close</td><td>盘后</td></tr>
+<tr><td class="t">15:50:28</td><td><span class="tag k-event">alert</span></td><td class="n">brain-observe:2026-09-14</td><td>盘后（D11 日报）</td></tr>
+<tr><td class="t">17:30:37</td><td><span class="tag k-fail">failure</span></td><td class="n">evening-check:2026-09-14</td><td>盘后</td></tr>
+<tr><td class="t">17:30:58</td><td><span class="tag k-event">review</span></td><td class="n">log-review:2026-09-14</td><td>盘后</td></tr>
+<tr><td class="t">17:39:07</td><td><span class="tag k-event">alert</span></td><td class="n">postclose-verdict:2026-09-14</td><td>盘后</td></tr>
+<tr><td class="t">17:46:02</td><td><span class="tag k-status">status</span></td><td class="n">status:…:evening</td><td>盘后</td></tr>
+<tr><td class="t">18:31:02</td><td><span class="tag k-status">status</span></td><td class="n">status:…:post-close-chain</td><td>盘后</td></tr>
+</tbody>
+</table>
+
+<div class="note">
+<b>当日实测的口径提醒：</b>上午 09:33–09:49 的 5 条 alert / failure（<code>tick_empty_stale</code> → <code>monitor-gap</code> → <code>scan</code>/<code>tick</code> 失败 → 恢复 → <code>poslive-deadlock</code> 事故）属当日 tick 数据路径事故的完整告警链，<b>不是常态基数</b>。稳态交易日的盘中推送量显著更低。
+</div>
+
+<h2>六、非交易日与维护窗口</h2>
+<table>
+<thead><tr><th>情形</th><th>行为</th></tr></thead>
+<tbody>
+<tr><td>周末 / 节假日</td><td><b>全线静默</b>：零任务执行、零推送、零门禁文件。交易日历（baostock）为唯一权威。</td></tr>
+<tr><td>日历不可用（rc=4）</td><td><b>fail-open</b>：按交易日继续执行并推 1 条 alert（宁多跑，不误停）。</td></tr>
+<tr><td>周六 10:00</td><td><code>YaobanTdxServerVerify</code> 维护类任务豁免守卫，照常运行。</td></tr>
+<tr><td>StatusPush 空转窗口</td><td>13 个触发时刻各带 4 小时重复窗，最晚 22:30 收工（约 167 次进程启动/日）；上游迟到 &gt;4 小时则补推失效，但 3 轮升级告警兜底。</td></tr>
+</tbody>
+</table>
+
+<h2>七、需要你动作的只有两种情况</h2>
+<table>
+<thead><tr><th>信号</th><th>含义</th><th>窗口</th></tr></thead>
+<tbody>
+<tr><td><b>「晚间核验」卡出现阻断项</b>（17:30 后）</td><td>当日存在需处置的阻断问题</td><td>夜间修复窗口 ≥15 小时</td></tr>
+<tr><td><b>任何 kind=failure 告警</b></td><td>任务阶段失败 / 监控中断 / 盘后链数据段失败</td><td>按 fail-closed 语义，盘中关键链路失败时不产生新仓</td></tr>
+</tbody>
+</table>
+<p>其余卡片均为状态流，无需回应。盘前链失败需在 <b>09:30 前</b>处置；盘中 tick 守护降级告警需立即关注（tick 与门禁解耦，独立守护持仓）。</p>
+
+<div class="foot">
+机器权威 = <code>yaoban-system/scripts/register_schedule.ps1</code> 的 <code>$Schedule</code> 表，由 <code>preflight.py</code> 每日比对触发器时刻（漂移为非致命告警）。人工可读表述 = <code>docs/DAY_TIMELINE.md</code>。
+计划任务实测状态（schtasks）：19 个任务全部「已启用」，9/14 除 <code>YaobanPostCloseChain</code>（rc=1）与 <code>YaobanTickDaemon</code>（rc=1）外均为 rc=0。
+</div>
+
+</div>
+</body>
+</html>

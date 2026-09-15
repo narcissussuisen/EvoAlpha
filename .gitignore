@@ -31,3 +31,14 @@ Thumbs.db
 
 # WorkBuddy 会话数据
 .workbuddy/
+
+# ---- 2026-09-15 追加（用户裁定）----
+
+# 看板运行时数据：status.json 每次刷新都变 ⇒ 入库只产生 git 噪音，且它是"数据"不是"文档"。
+# 定位：docs/dashboard/status.json = 看板唯一真相源（被 tools/build_roadmap_dashboard.py、
+#       tools/roadmap_server.py 读取）。已移出版本控制；备份见 evoalpha_all/_dashboard_backup/。
+docs/dashboard/
+
+# 临时工作区：一次性脚本、证据快照、修复前备份。
+# 约定：此处内容**随时可删**，需要长期保留的产物必须移出本目录并登记到 docs/_INDEX.md。
+_scratch/

@@ -1,5 +1,8 @@
 # P0 基线稳固 · 变更日志（2026-08-31 晚）
 
+> status: historical
+> note: 记录当时口径与决策，只增不改（数字停留在当时）
+
 > 原则：失败可见、版本化、可回滚。每项修复含根因、改动、验证。
 
 ## P0-1 计划任务修复
@@ -429,3 +432,48 @@
   `/vr/portfolio`(equity 93,325.36／持仓 300394·300468 带实时价)、`/vr/picks`(date=2026-09-11)、`/vr/alerts`、`/vr/board` 全 200；
   经 UI 代理 `/api/vr/portfolio|picks` 200；live-tick 校验器 `node --check` 通过。
 - 待观察：09:35/13:05 live-tick 任务结果、08:35 体检看板项、上游全量后端测试（后台补跑）。
+
+
+## 9/11 早间：关键节点状态卡推送（用户裁定）+ PS1 编码事故复盘
+
+### 新增：`YaobanStatusPush` 只读观测者（每个时间关键节点推一张飞书状态卡）
+- 背景：用户要求「每个时间关键节点推送状态到 EvoAlpha 飞书群」。裁定为**推荐粒度（每日约 10 张卡）** + **只读观测任务挂载（不改生产链）**。
+- 新增 `scripts/status_push.py`（约 850 行）与入口 `scripts/run_status_push.ps1`；注册表 `register_schedule.ps1` 增一条
+  `Script` 类条目（`At` 13 个时刻 / `Interval=PT5M` / `Duration=PT10H24M`，窗口 08:36–19:00，约 125 次触发）。
+- 节点（9 个固定 + 1 条兜底）：08:36 盘前体检 · 08:50 盘前就绪 · 08:55 计划验收 · 09:30 开盘就绪 · 11:30 上午小结 ·
+  13:05 午后就绪 · 15:05 收盘落账 · 17:45 晚间核验·全天总结 · 18:30 盘后链·次日计划。
+- **边界（与 selfheal 同约）**：只读 task_logs/outputs/ledger/日历缓存；只写 `outputs/notifications/status_push_<d>.json`、
+  `delivery_<YYYYMMDD>.jsonl`(kind=status)、失败时 `selfcheck/anomalies.log`；**不写门禁、不碰账本与计划、恒 exit 0**；
+  停用该任务对交易链路零影响（回滚 = `schtasks /Change /TN \YaobanStatusPush /DISABLE`）。
+- 去重与补推：状态文件按 (date,node) 去重 + `event_key=status:<d>:<node>` 全局去重双闸；来源未就绪记 pending 不推空白卡，
+  由 PT5M 重复窗自动补推；连续 3 轮未就绪才升级 1 条 failure 告警（每节点每日至多 1 条）。
+- 自证：查询本任务「下次运行时间」，非当日即判定为手动/补跑实例 → 只记 tick 不推送，避免假卡。
+- 契约同步：`preflight.py` 的 `TRIGGER_EXPECTED` 已加入同名同刻，保持「计划表即代码」断言（`test_ops_contract_20260910`）有效。
+- 验证：`tests/test_status_push.py` **28 项全绿**（状态机/渲染健壮性/解码回退/失败升级/非交易日静默/只读边界/契约/编码守卫）；
+  preflight 复跑 **16 PASS / 0 FAIL / 1 WARN**，`任务Action bad=[]`、`任务历史 unproven=[]`、`任务触发器 drift=[]`；
+  注册表 `-VerifyOnly` 19 条全 ok；实测 09:05 计划实例 rc=0、当日 3 张卡（体检/盘前/验收）HTTP 200 code=0。
+
+### 事故复盘：无 BOM 的 .ps1 被 PowerShell 5.1 按 GBK 错解 → 静默漏注册任务
+- 现象：`register_schedule.ps1` 的 `$Schedule` 表明确有 19 条，注册却始终只落 18 条，**既不报错也不提示**。
+- 根因：Windows PowerShell 5.1 读取**无 BOM** 的脚本时按系统 ANSI(GBK) 解码。文件含中文注释，
+  错解后个别行的语义被吞并，新增条目被并入相邻注释/语句而静默消失。
+  （旁证：同一手法写的临时探针脚本也把中文路径解成 `鏂规硶璁轰笌鐮旂┒鏂囨。` 而找不到文件。）
+- 处置：`register_schedule.ps1`、`run_trading_task.ps1`、`run_status_push.ps1` 统一改为 **UTF-8 with BOM**。
+- 防回归：`tests/test_status_push.py::test_ps1_entry_points_are_ascii_or_bom` —— 生产 .ps1 必须「纯 ASCII 或带 BOM」。
+- 同日修正 3 处文案漂移：`DAY_TIMELINE` 的「19 项体检」→「infra 17 项 / post_plan 18 项」；
+  `check_morning.py` 的 08:45 标签与 CHAIN 表 → 08:35；`run_trading_task.ps1` 注释 16:30/19:30 → 15:35/17:30。
+
+### 观测者自身缺陷（自查发现并修复，均在实发前拦截）
+1. `--force` 曾同时绕过「已推送」与「未到点」判定 → 会把未来时刻的卡片提前发出。已拆分为 `--force`（仅补发）
+   与 `--allow-early`（仅本地演练）；并补 `test_force_still_refuses_early_push` 守卫。
+2. `_escalate` 幂等失效：`_load_state` 把 `warned` 规范化为 list，而守卫按 dict 取键，`in` 检查恒为假 → 每轮重发升级告警。
+   已统一为 list 并在 `_load_state` 做类型规范化。
+
+### 全量测试基线（227 项）
+- `python -m unittest discover -s tests`：**227 项，1 项失败**，且该失败与本批次改动无关（未触及任何相关文件）：
+  `test_dashboard_names.DashboardNamesContractTests.test_home_renders_name_first` —— 断言 `Home.tsx` 含 `(a.name || a.sym)`，
+  但 `Vibe-Research/desktop/src/verticals/finance/pages/Home.tsx` 已在 **9/10 23:05** 的上游 v1.2.0 合并中被重写，
+  而该测试自 **8/31** 起未更新 → 断言过期。**待办：更新该断言（属看板合并遗留，非本批次引入）。**
+- 另：`test_ops_contract_20260910` 的 4 项 ERROR 为沙箱环境限制（`py_libs/six.py` 导入被拒、tempdir 不可写），非代码缺陷；
+  本批次相关的 `test_preflight_trigger_contract_matches_table` 在该文件内为 **ok**。
+

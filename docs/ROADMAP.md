@@ -1,5 +1,8 @@
 # EvoAlpha 差距分析与达标路线图
 
+> status: superseded
+> superseded_by: docs/ROADMAP_STATUS.md（现行状态）+ yaoban-system/docs/ROADMAP_v5*.md（v5 路线图）
+
 > 目标定义：EvoAlpha 作为由多个 AI 专业智能体组成的自主进化型量化投资团队，在模拟盘中独立完成**研究 → 决策 → 组合管理 → 交易执行 → 风险控制 → 复盘迭代**的完整系统。
 >
 > 本文档基于 2026-08-31（首个实盘交易日）的运行核查，给出差距矩阵与分阶段路线图。核查证据详见当日运行报告（计划任务状态、yaoban-system/outputs/、outputs/team_decisions/、agents/、Vibe-Research/.local/doctor/）。
