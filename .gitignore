@@ -45,3 +45,7 @@ _scratch/
 
 # learning/tools 下的一次性脚本与草稿（下划线前缀约定 = 临时，可随时删）
 learning/tools/_*
+
+# 画像产物：由 yaoban-system/tools/build_persona_*.py 生成（OUT_MD 写死 docs/PERSONA_*.md）
+# ⇒ 入库只会造成"生成器改一次、产物再改一次"的双写噪音。要改内容请改生成器。
+docs/PERSONA_*.md
